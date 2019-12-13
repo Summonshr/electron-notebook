@@ -1,19 +1,62 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <title>Note Book</title>
+  <link rel="stylesheet" href="./styles/tailwind.css">
+  <link rel="stylesheet" href="./styles/markdown.css">
+  <link rel="stylesheet" href="./styles/custom.css">
+
+</head>
+
+<body>
+  <div id="app" class="flex flex-wrap">
+    <div id="sidebar" class="w-48 h-screen bg-gray-900">
+      <div class="p-2 flex flex-wrap justify-between border-b border-gray-800">
+        <h2 class="text-gray-300">NoteBook</h2 class="text-gray-300">
+        <button @click="categories.push({title:'New Category',disabled:false, key: random()})"
+          class="text-gray-100 bg-blue-600 hover:bg-blue-800 px-2 leading-normal rounded">New +</button>
+      </div>
+      <div class="bg-blue-900">
+        <div :key="category.key" class="select-none border-b border-blue-900 px-4 py-1 cursor-pointer hover:bg-blue-900 hover:text-blue-400" :class="{'bg-gray-900 text-gray-100': selected.category==category.key, 'text-blue-200 bg-blue-800 ': selected.category!=category.key}" v-for="category in categories">
+          <span class="text-gray-100 w-full h-6 block" v-if="category.disabled" @click="selected.category=category.key" @dblclick="category.disabled=false" v-html="category.title"></span>
+          <input v-if="!category.disabled" @keydown.tab='category.disabled=true,selected.category=category.key' @keydown.esc="category.disabled=true" v-model="category.title" :disabled="category.disabled"
+            class="bg-blue-800 text-blue-200 outline-none h-6" />
+        </div>
+      </div>
+    </div>
+    <div id="notes" class="max-w-xs w-full h-screen bg-gray-400">
+      <div class="flex flex-wrap justify-between items-end p-2">
+        <h2 class="" v-text="category.title"></h2>
+        <button v-if="selected.category" @click="()=>notes.push({title:'New Note', description: 'New Description', key:random(),category: selected.category, content: ''})" class="bg-teal-400 font-semibold rounded text-teal-900 px-2 bg-teal-100 h-6">Add Note +</button>
+      </div>
+      <ul>
+          <li v-for="note in list" :key="note.key" class="bg-gray-200 hover:bg-gray-500 hover:text-gray-900 border-b px-2 cursor-pointer py-1" :class="{'bg-gray-800 text-gray-200 hover:bg-gray-500  hover:text-gray-900': selected.note == note.key}" @click="selected.note = note.key">
+             <h3 v-text="note.title" class="font-semibold "></h3>
+             <span v-text="note.description" class="text-sm"></span>
+          </li>
+      </ul>
+    </div>
+    <div @dblclick="editor=!editor" v-if="selected.note" class="flex-1 flex-grow text-white bg-gray-900 min-h-screen">
+      <div  v-if="!editor" class="bg-gray-900  min-h-screen p-2 text-gray-200 markdown-body" >
+        <h2 class="mb-0 pb-0" v-html="title"></h2>
+        <span class="text-sm text-blue-200" v-html="description"></span>
+        <vue-markdown :source="note" ></vue-markdown>
+      </div>
+      <div v-if="editor" class="flex flex-col h-full  bg-blue-100 text-blue-900 px-2" >
+        <div class="flex flex-wrap justify-between items-end">
+          <span>Title:</span><input type="text" v-model="title" class="flex-1 flex-grow px-2 pt-2 bg-blue-100 w-full outline-none font-bold">
+        </div>
+        <input type="text" v-model="description" class=" py-2 bg-gray-100 w-full outline-none bg-blue-100 text-blue-900 text-sm border-b">
+        <textarea @keyup.esc="editor=false" v-if="editor" v-model="note" class="w-full flex-1 bg-gray-300 outline-none p-2 text-gray-100 bg-blue-100 text-blue-900"></textarea>
+      </div>
+    </div>
+  </div>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script src="./node_modules/vue-markdown/dist/vue-markdown.js"></script>
+  <script src="./scripts/renderer.js"></script>
+</body>
+
 </html>
