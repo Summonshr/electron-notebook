@@ -13,44 +13,78 @@
 
 <body>
   <div id="app" class="flex flex-wrap">
-    <div id="sidebar" class="w-48 h-screen bg-gray-900">
+    <div id="sidebar" class="w-48 h-screen bg-gray-800">
       <div class="p-2 flex flex-wrap justify-between border-b border-gray-800">
         <h2 class="text-gray-300">NoteBook</h2 class="text-gray-300">
-        <button @click="categories.push({title:'New Category',disabled:false, key: random()})"
-          class="text-gray-100 bg-blue-600 hover:bg-blue-800 px-2 leading-normal rounded">New +</button>
+        <button @click="addCategory" class="text-gray-100 bg-blue-600 hover:bg-blue-800 px-2 leading-normal rounded">New
+          +</button>
       </div>
-      <div class="bg-blue-900">
-        <div :key="category.key" class="select-none border-b border-blue-900 px-4 py-1 cursor-pointer hover:bg-blue-900 hover:text-blue-400" :class="{'bg-gray-900 text-gray-100': selected.category==category.key, 'text-blue-200 bg-blue-800 ': selected.category!=category.key}" v-for="category in categories">
-          <span class="text-gray-100 w-full h-6 block" v-if="category.disabled" @click="selected.category=category.key" @dblclick="category.disabled=false" v-html="category.title"></span>
-          <input v-if="!category.disabled" @keydown.tab='category.disabled=true,selected.category=category.key' @keydown.esc="category.disabled=true" v-model="category.title" :disabled="category.disabled"
-            class="bg-blue-800 text-blue-200 outline-none h-6" />
+      <div class="">
+        <ul class="select-none cursor-pointer mb-2">
+          <li class="flex items-center px-4">
+            <svg fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
+              viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+              <path d="M352,0H96v448h384V128L352,0z M352,45.25L434.75,128H352V45.25z M448,416H128V32h192v128h128V416z M288,128H160V96h128V128z
+	 M160,192h256v32H160V192z M160,288h256v32H160V288z M480,480v32H32V0h32v480H480z" />
+            </svg>
+            <span class="text-gray-100 w-full h-6 block px-2 h-8 pt-1 text-sm"
+              @click="selected.category=''">Notes</span>
+          </li>
+          <li class="flex items-center px-4">
+            <svg class="inline" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px"
+              height="16px">
+              <path
+                d="M 10.3125 -0.03125 C 8.589844 -0.03125 7.164063 1.316406 7 3 L 2 3 L 2 5 L 6.96875 5 L 6.96875 5.03125 L 17.03125 5.03125 L 17.03125 5 L 22 5 L 22 3 L 17 3 C 16.84375 1.316406 15.484375 -0.03125 13.8125 -0.03125 Z M 10.3125 2.03125 L 13.8125 2.03125 C 14.320313 2.03125 14.695313 2.429688 14.84375 2.96875 L 9.15625 2.96875 C 9.296875 2.429688 9.6875 2.03125 10.3125 2.03125 Z M 4 6 L 4 22.5 C 4 23.300781 4.699219 24 5.5 24 L 18.59375 24 C 19.394531 24 20.09375 23.300781 20.09375 22.5 L 20.09375 6 Z M 7 9 L 8 9 L 8 22 L 7 22 Z M 10 9 L 11 9 L 11 22 L 10 22 Z M 13 9 L 14 9 L 14 22 L 13 22 Z M 16 9 L 17 9 L 17 22 L 16 22 Z" />
+            </svg>
+            <span class="float-left text-gray-100 w-full h-6 block px-2 h-8 pt-1 text-sm"
+              @click="selected.trash=true">Trash</span>
+          </li>
+        </ul>
+        <div :key="category.key" class="select-none cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+          :class="{'bg-gray-700 text-gray-400': selected.category==category.key}" v-for="category in categories">
+          <span class="text-gray-100 w-full h-6 block px-4 h-8 pt-1 text-sm" v-if="category.disabled"
+            @click="selectCategory(category)" @dblclick="category.disabled=false"
+            v-html="'# '+category.title"></span>
+          <input maxlength="15" v-if="!category.disabled" @keydown.enter="selectCategory(category)"
+            @keydown.tab='selectCategory(category)' @keydown.esc="category.disabled=true" v-model="category.title"
+            :disabled="category.disabled"
+            class="bg-blue-200 w-full px-4 h-8 pt-1 text-blue-900 outline-none h-6 border-b border-blue-300" />
         </div>
       </div>
     </div>
     <div id="notes" class="max-w-xs w-full h-screen bg-gray-400">
       <div class="flex flex-wrap justify-between items-end p-2">
-        <h2 class="" v-text="category.title"></h2>
-        <button v-if="selected.category" @click="()=>notes.push({title:'New Note', description: 'New Description', key:random(),category: selected.category, content: ''})" class="bg-teal-400 font-semibold rounded text-teal-900 px-2 bg-teal-100 h-6">Add Note +</button>
+        <h2 class="" v-text="category.title || 'Notes'"></h2>
+        <button v-if="selected.category" @click.prevent="addNote"
+          class="bg-teal-400 font-semibold rounded text-teal-900 px-2 bg-teal-100 h-6">Add Note +</button>
       </div>
       <ul>
-          <li v-for="note in list" :key="note.key" class="bg-gray-200 hover:bg-gray-500 hover:text-gray-900 border-b px-2 cursor-pointer py-1" :class="{'bg-gray-800 text-gray-200 hover:bg-gray-500  hover:text-gray-900': selected.note == note.key}" @click="selected.note = note.key">
-             <h3 v-text="note.title" class="font-semibold "></h3>
-             <span v-text="note.description" class="text-sm"></span>
-          </li>
+        <li v-for="note in list" :key="note.key"
+          class="bg-gray-200 hover:bg-gray-500 hover:text-gray-900 border-b px-2 cursor-pointer py-1"
+          :class="{'bg-gray-800 text-gray-200 hover:bg-gray-500  hover:text-gray-900': selected.note == note.key}"
+          @click="selected.note = note.key,$refs.title.focus()">
+          <h3 v-text="note.title || 'What\'s the title?'" class="font-semibold "></h3>
+          <span v-text="note.description || 'Short and sweet description would be nice'" class="text-sm"></span>
+        </li>
       </ul>
     </div>
-    <div @dblclick="editor=!editor" v-if="selected.note" class="flex-1 flex-grow text-white bg-gray-900 min-h-screen">
-      <div  v-if="!editor" class="bg-gray-900  min-h-screen p-2 text-gray-200 markdown-body" >
-        <h2 class="mb-0 pb-0" v-html="title"></h2>
-        <span class="text-sm text-blue-200" v-html="description"></span>
-        <vue-markdown :source="note" ></vue-markdown>
+    <div @dblclick="editor=!editor" v-if="selected.note"
+      class="bg-gray-200 text-gray-800 flex-1 flex-grow text-white bg-gray-900 min-h-screen">
+      <div v-if="!editor" class="bg-gray-200 min-h-screen p-2 markdown-body">
+        <h2 class="text-2xl" v-html="title"></h2>
+        <span class="text-sm mb-2" v-html="description"></span>
+        <vue-markdown :source="note"></vue-markdown>
       </div>
-      <div v-if="editor" class="flex flex-col h-full  bg-blue-100 text-blue-900 px-2" >
-        <div class="flex flex-wrap justify-between items-end">
-          <span>Title:</span><input type="text" v-model="title" class="flex-1 flex-grow px-2 pt-2 bg-blue-100 w-full outline-none font-bold">
+      <div v-if="editor" class="flex flex-col h-full bg-gray-100 text-gray-900">
+        <div class="flex flex-wrap justify-between items-end border-b-2 pb-2">
+          <input ref="title" type="text" v-model="title"
+            class="text-blue-800 text-2xl flex-1 flex-grow px-2 pt-2 bg-blue-100 w-full outline-none font-semibold">
         </div>
-        <input type="text" v-model="description" class=" py-2 bg-gray-100 w-full outline-none bg-blue-100 text-blue-900 text-sm border-b">
-        <textarea @keyup.esc="editor=false" v-if="editor" v-model="note" class="w-full flex-1 bg-gray-300 outline-none p-2 text-gray-100 bg-blue-100 text-blue-900"></textarea>
+        <input ref="description" type="text" v-model="description"
+          class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-blue-100 text-blue-900 text-sm border-b">
+        <textarea ref="editor" @keyup.esc="editor=false" v-if="editor" v-model="note"
+          class="w-full flex-1 bg-gray-300 outline-none p-2 text-gray-100 bg-blue-100 text-blue-900"></textarea>
       </div>
     </div>
   </div>
