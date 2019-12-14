@@ -36,6 +36,7 @@ const initial = {
       updated_at: Date.now(),
       key: '1',
       category: '1',
+      trashed_at: false,
       title: 'A New Hope',
       description: 'A short and sweet description would not harm this note',
       content: '## Double click here to start writing'
@@ -44,6 +45,7 @@ const initial = {
       created_at: Date.now(),
       updated_at: Date.now(),
       key: '2',
+      trashed_at: false,
       category: '2',
       title: 'Obi Wan Kenobi',
       description: 'The Force will be with you. Always',
@@ -53,6 +55,7 @@ const initial = {
       created_at: Date.now(),
       updated_at: Date.now(),
       key: '3',
+      trashed_at: false,
       category: '3',
       title: 'Yoda',
       description: 'When gone am I, the last of the Jedi will you be.',

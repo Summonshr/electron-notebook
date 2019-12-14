@@ -74,8 +74,16 @@ let data = sendSync('get-data', 'now')
 new Vue({
     el: '#app',
     methods: {
+        removeFromTrash() {
+            let notes = this.notes
+            notes = notes.filter(e => !e.trashed_at)
+            if (this.current.trashed_at) {
+                this.selected.note = ''
+            }
+            this.notes = notes
+        },
         select(note) {
-            this.selected.note = note.key,
+            this.selected.note = note.key;
             this.editor = false
         },
         random: function () {
@@ -89,7 +97,7 @@ new Vue({
             this.notes = notes;
             this.editor = true
             this.selected.note = random
-            setTimeout(()=>this.$refs.title.focus(), 100)
+            setTimeout(() => this.$refs.title.focus(), 100)
         },
         addCategory() {
             let random = this.random()
@@ -106,16 +114,16 @@ new Vue({
         }
     },
     computed: {
-        currentCategoryTitle: function(){
-            if(this.selected.category.toLowerCase() ==='trash') {
+        currentCategoryTitle: function () {
+            if (this.selected.category.toLowerCase() === 'trash') {
                 return "Trash"
             }
 
-            if(this.selected.category) {
-                return this.categories.filter(ec=>ec.key === this.selected.category)[0].title
+            if (this.selected.category) {
+                return this.categories.filter(ec => ec.key === this.selected.category)[0].title
             }
 
-            return 'Notes'
+            return ''
         },
         current: {
             get() {
@@ -160,18 +168,18 @@ new Vue({
             } else if (this.selected.category) {
                 notes = sortBy(notes.filter(e => !e.trashed_at && e.category === this.selected.category), 'updated_at')
             } else if (!this.selected.category) {
-                notes = sortBy(notes, 'updated_at').filter(e=>!e.trashed_at)
-                if(this.search){
-                    notes = notes.filter(note=>JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
+                notes = sortBy(notes, 'updated_at').filter(e => !e.trashed_at)
+                if (this.search) {
+                    notes = notes.filter(note => JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
                 }
             }
 
             notes = notes.reverse()
 
-            if(notes.length > 0) {
+            if (notes.length > 0) {
                 this.selected.note = notes[0].key
             }
-            
+
             return notes
 
         }
