@@ -1,12 +1,23 @@
-textarea::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 5px;
 }
 
-textarea::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(200, 193, 193, 0.3);
+    background: transparent;
 }
 
-textarea::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: rgb(38, 36, 70);
     outline: 1px solid rgb(1, 74, 146);
+    border-right: none;
+    border-left: none;
+}
+
+::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track-piece:start {
+    background: transparent;
 }

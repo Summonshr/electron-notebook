@@ -1,8 +1,9 @@
 Vue.use(VueMarkdown);
 let shuffle = require("lodash/shuffle")
 let sortBy = require("lodash/sortBy")
+let ipcRenderer = require('electron').ipcRenderer
+let { send, sendSync, on } = ipcRenderer
 
-let { send, sendSync, on } = require('electron').ipcRenderer
 let sample = {
     categories: [
         'JEDI MIND TRICK',
@@ -68,10 +69,15 @@ let sample = {
         }
     ]
 }
+let updated = false;
 let data = sendSync('get-data', 'now')
 new Vue({
     el: '#app',
     methods: {
+        select(note) {
+            this.selected.note = note.key,
+            this.editor = false
+        },
         random: function () {
             return Math.round(Math.random() * 1000000).toString()
         },
@@ -79,11 +85,11 @@ new Vue({
             let note = shuffle(sample.notes)[0]
             let notes = this.notes
             let random = this.random()
-            notes.push({ updated_at: Date.now(), created_at: Date.now(), title: note.title, description: note.description, key: random, category: category || this.selected.category, content: '' })
+            notes.push({ updated_at: Date.now(), trashed_at: false, created_at: Date.now(), title: note.title, description: note.description, key: random, category: category || this.selected.category, content: '' })
             this.notes = notes;
             this.editor = true
             this.selected.note = random
-            this.$refs.title.focus()
+            setTimeout(()=>this.$refs.title.focus(), 100)
         },
         addCategory() {
             let random = this.random()
@@ -96,10 +102,21 @@ new Vue({
         selectCategory(category) {
             category.disabled = true
             this.selected.category = category.key
-            this.selected.note = this.notes.filter(e=>e.category===category.key)[0].key
+            this.selected.note = this.notes.filter(e => e.category === category.key)[0].key
         }
     },
     computed: {
+        currentCategoryTitle: function(){
+            if(this.selected.category.toLowerCase() ==='trash') {
+                return "Trash"
+            }
+
+            if(this.selected.category) {
+                return this.categories.filter(ec=>ec.key === this.selected.category)[0].title
+            }
+
+            return 'Notes'
+        },
         current: {
             get() {
                 return this.notes.filter(e => e.key === this.selected.note)[0]
@@ -136,20 +153,52 @@ new Vue({
             return this.selected.category && this.categories.filter(e => e.key == this.selected.category)[0]
         },
         list() {
-            // if(this.selected.trash){
-            //     return [];
-            // }
+            let notes = this.notes
 
-            if (!this.selected.category) {
-                return sortBy(this.notes,'updated_at').reverse()
+            if (this.selected.category.toLowerCase() === 'trash') {
+                notes = sortBy(notes.filter(e => e.trashed_at), 'updated_at');
+            } else if (this.selected.category) {
+                notes = sortBy(notes.filter(e => !e.trashed_at && e.category === this.selected.category), 'updated_at')
+            } else if (!this.selected.category) {
+                notes = sortBy(notes, 'updated_at').filter(e=>!e.trashed_at)
+                if(this.search){
+                    notes = notes.filter(note=>JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
+                }
             }
-            return this.selected.category ? sortBy(this.notes.filter(e => e.category === this.selected.category),'updated_at').reverse() : []
+
+            notes = notes.reverse()
+
+            if(notes.length > 0) {
+                this.selected.note = notes[0].key
+            }
+            
+            return notes
+
         }
     },
     mounted() {
         setInterval(() => {
+            if (!updated) {
+                return;
+            }
+            updated = false
             send('data', { ...this.$data })
         }, 5000)
+        ipcRenderer.on('delete', (e, k) => {
+            let [type, key] = k.split(':')
+            let data = [...this[type]]
+            data = data.map(ec => {
+                if (ec.key.toString() === key.toString()) {
+                    ec.trashed_at = Date.now()
+                }
+                return ec;
+            })
+            console.log(data)
+            this[type] = data
+        })
+    },
+    updated() {
+        updated = true
     },
     data: {
         ...data
