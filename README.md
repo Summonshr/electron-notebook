@@ -19,6 +19,7 @@ Features supported.
 - [x] Add context menus to delete notes
 - [x] Add confirm dialogues to various actions
 - [x] Support markdown for note taking
+- [ ] Add simple text editor
 
 
 Fire any queries at summonshr@gmail.com

@@ -60,7 +60,7 @@
     <div id="notes" class="w-64 max-w-xs lg:w-full h-screen bg-gray-400 overflow-x-hidden overflow-y-scroll ">
       <div class="flex flex-wrap justify-between items-center">
         <h2 class="p-2 text-xs lg:text-base" v-text="currentCategoryTitle" v-if="selected.category"></h2>
-        <input autofocus v-model="search" type="text" v-if='selected.category===""' placeholder="Search for notes"
+        <input @keydown.esc='search=""' autofocus v-model="search" type="text" v-if='selected.category===""' placeholder="Search for notes"
           class="w-full h-full p-2">
         <button v-if="selected.category.toLowerCase()==='trash' && list.length !== 0" @click.prevent="removeFromTrash"
           class="bg-red-200 hover:bg-red-800 font-semibold rounded text-red-900 hover:text-red-200 px-2 h-6 mr-2">Empty</button>
