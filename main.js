@@ -32,6 +32,7 @@ const initial = {
   },
   editor:false,
   search: '',
+  transition: 'nothing',
   notes: [
     {
       created_at: Date.now(),

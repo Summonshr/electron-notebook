@@ -37,7 +37,7 @@ new Vue({
         addCategory() {
             let random = this.random()
             let categories = this.categories
-            categories.push({ title: shuffle(sample.categories)[0], disabled: true, key: random,created_at: Date.now() })
+            categories.push({ title: shuffle(sample.categories)[0], disabled: true, key: random, created_at: Date.now() })
             this.categories = categories
             this.addNote(null, random)
             this.selected.category = random
@@ -45,6 +45,7 @@ new Vue({
         selectCategory(category) {
             category.disabled = true
             this.selected.category = category.key
+            this.transition='fade-in'
             this.selected.note = this.notes.filter(e => e.category === category.key)[0].key
         }
     },
@@ -95,7 +96,7 @@ new Vue({
         category() {
             return this.selected.category && this.categories.filter(e => e.key == this.selected.category)[0]
         },
-        categoryList(){
+        categoryList() {
             return sortBy(this.categories, 'updated_at').reverse()
         },
         list() {
@@ -112,7 +113,7 @@ new Vue({
                 }
             }
 
-            notes = sortBy(notes,'updated_at')
+            notes = sortBy(notes, 'updated_at')
 
             notes = notes.reverse()
 
@@ -133,6 +134,7 @@ new Vue({
             send('data', { ...this.$data })
         }, 5000)
         ipcRenderer.on('delete', (e, k) => {
+            this.transition = 'fade'
             let [type, key] = k.split(':')
             let data = [...this[type]]
             data = data.map(ec => {
@@ -142,8 +144,12 @@ new Vue({
                 return ec;
             })
             this[type] = data
+            setTimeout(()=>{
+                this.transition = 'nothing'
+            }, 1000)
         })
         ipcRenderer.on('restore', (e, k) => {
+            this.transition = 'fade'
             let [type, key] = k.split(':')
             let data = [...this[type]]
             data = data.map(ec => {
@@ -154,6 +160,7 @@ new Vue({
                 return ec;
             })
             this[type] = data
+            this.transition = 'nothing'
         })
     },
     updated() {

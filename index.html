@@ -40,17 +40,15 @@
               @click="selected.category='Trash'">Trash</span>
           </li>
         </ul>
-        <transition-group name="fade">
-          <div :key="category.key" class="select-none cursor-pointer hover:bg-gray-700 hover:text-gray-400"
-            :class="{'bg-gray-700 text-gray-400': selected.category==category.key}" v-for="category in categoryList">
-            <a :href="'#category#'+category.key"  class="text-gray-100 w-full h-6 block px-4 h-8 pt-1 text-sm" v-if="category.disabled"
-              @click="selectCategory(category)" @dblclick="category.disabled=false" v-html="'# '+category.title"></a>
-            <input maxlength="15" v-if="!category.disabled" @keydown.enter="selectCategory(category)"
-              @keydown.tab='selectCategory(category)' @keydown.esc="category.disabled=true" v-model="category.title"
-              :disabled="category.disabled"
-              class="bg-blue-200 w-full px-4 h-8 pt-1 text-blue-900 outline-none h-6 border-b border-blue-300" />
-          </div>
-        </transition-group>
+        <div :key="category.key" class="select-none cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+          :class="{'bg-gray-700 text-gray-400': selected.category==category.key}" v-for="category in categoryList">
+          <a :href="'#category#'+category.key"  class="text-gray-100 w-full h-6 block px-4 h-8 pt-1 text-sm" v-if="category.disabled"
+            @click="selectCategory(category)" @dblclick="category.disabled=false" v-html="'# '+category.title"></a>
+          <input maxlength="15" v-if="!category.disabled" @keydown.enter="selectCategory(category)"
+            @keydown.tab='selectCategory(category)' @keydown.esc="category.disabled=true" v-model="category.title"
+            :disabled="category.disabled"
+            class="bg-blue-200 w-full px-4 h-8 pt-1 text-blue-900 outline-none h-6 border-b border-blue-300" />
+        </div>
       </div>
     </div>
     <div id="notes" class="w-64 max-w-xs lg:w-full h-screen bg-gray-400 overflow-x-hidden overflow-y-scroll ">
@@ -69,8 +67,8 @@
         <button v-else @click.prevent="addNote"
           class="bg-teal-400 font-semibold rounded text-teal-900 px-2 bg-teal-100 h-16 w-full hover:bg-teal-900 hover:text-teal-100 mr-2">Add Note +</button>
       </div>
-      <transition-group name="fade">
-        <a :href="'#notes#'+note.key + (note.trashed_at ? '#restore' : '')" v-for="note in list"  :key="note.key"
+      <transition-group :name="transition">
+        <a :has="transition" :href="'#notes#'+note.key + (note.trashed_at ? '#restore' : '')" v-for="note in list"  :key="note.key"
         class="block bg-gray-200 hover:bg-gray-500 hover:text-gray-900 border-b px-2 cursor-pointer py-1"
         :class="{'bg-gray-800 text-gray-200 hover:bg-gray-500  hover:text-gray-900': selected.note == note.key}"
         @click="select(note)">
@@ -81,7 +79,7 @@
     </div>
     <div @dblclick="editor=!editor" v-if="selected.note"
       class="bg-gray-200 text-gray-800 flex-1 flex-grow text-white bg-gray-900 overflow-x-hidden overflow-y-scroll h-screen">
-      <transition name="fade">
+      <transition :name="transition">
         <div v-if="!editor" class="bg-gray-200 min-h-screen p-2 markdown-body">
         <span class="absolute top-r right-0 mt-2 mr-2 text-xs text-gray-700">Created at <span v-html="(new Date(current.created_at)).toLocaleString()"></span></span>
         <h2 class="text-2xl mb-0" v-html="title"></h2>
@@ -91,7 +89,7 @@
         <vue-markdown :source="note"></vue-markdown>
       </div>
       </transition>
-      <transition name="fade">
+      <transition :name="transition">
         <div v-if="editor" class="flex flex-col h-full bg-gray-100 text-gray-900">
           <div class="flex flex-wrap justify-between items-end border-b-2">
             <input ref="title" type="text" v-model="title"
