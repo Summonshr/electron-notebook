@@ -25,6 +25,7 @@ new Vue({
             return Math.round(Math.random() * 1000000).toString()
         },
         addNote(event, category) {
+            this.transition = 'fade'
             let note = shuffle(sample.notes)[0]
             let notes = this.notes
             let random = this.random()
@@ -134,7 +135,7 @@ new Vue({
             send('data', { ...this.$data })
         }, 5000)
         ipcRenderer.on('delete', (e, k) => {
-            this.transition = 'fade'
+            this.transition = 'zoom-out'
             let [type, key] = k.split(':')
             let data = [...this[type]]
             data = data.map(ec => {
@@ -144,9 +145,6 @@ new Vue({
                 return ec;
             })
             this[type] = data
-            setTimeout(()=>{
-                this.transition = 'nothing'
-            }, 1000)
         })
         ipcRenderer.on('restore', (e, k) => {
             this.transition = 'fade'

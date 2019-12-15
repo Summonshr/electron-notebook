@@ -26,11 +26,16 @@
     height: 0px;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-leave-active{
+    display: none;
+}
+.fade-enter-active {
     transition: opacity .5s;
 }
-
-.fade-enter, .fade-leave-to {
+.fade-leave-to{
+    display: none;
+}
+.fade-enter {
     opacity: 0;
 }
 .fade-in-leave-active{
@@ -45,30 +50,30 @@
     opacity: 0;
 }
 
-@-webkit-keyframes zoomOut {
-    from {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-        -webkit-transform: scale3d(0.3, 0.3, 0.3);
-        transform: scale3d(0.3, 0.3, 0.3);
-    }
-    to {
-        opacity: 0;
-    }
+.zoom-out-leave-active {
+    animation-duration: 2s;
+    animation-name: zoomOut;
 }
+
+.zoom-out-leave-to{
+    opacity: 0;
+}
+
 
 @keyframes zoomOut {
     from {
         opacity: 1;
     }
     50% {
-        opacity: 0;
-        -webkit-transform: scale3d(0.3, 0.3, 0.3);
         transform: scale3d(0.3, 0.3, 0.3);
+        padding: 0;
+        opacity: 0;
+        height: 0;
     }
     to {
+        padding: 0;
+        height: 0;
+        display: none;
         opacity: 0;
     }
 }
