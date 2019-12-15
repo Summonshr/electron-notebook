@@ -6,20 +6,22 @@ const contextMenu = require('electron-context-menu');
 contextMenu({
 	prepend: (defaultActions, params, browserWindow) => [
 		{
-			label: 'Delete',
+      label: 'Delete',
+      visible: console.log(params.linkURL.split('#').length) || params.linkURL.split('#').length === 3,
 			// Only show it when right-clicking images
 			click: ()=>{
         const [url,type, key] = params.linkURL.split('#')
         mainWindow.webContents.send('delete',[type,key].join(':'))
       }
-		},
-		{
-			label: 'Search Google for “{selection}”',
-			// Only show it when right-clicking text
-			visible: params.selectionText.trim().length > 0,
-			click: () => {
-				shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
-			}
+    },
+    {
+      label: 'Restore',
+      visible: params.linkURL.toLowerCase().indexOf('#restore') > -1,
+			// Only show it when right-clicking images
+			click: ()=>{
+        const [url,type, key] = params.linkURL.split('#')
+        mainWindow.webContents.send('restore',[type,key].join(':'))
+      }
 		}
 	]
 });

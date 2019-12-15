@@ -143,6 +143,18 @@ new Vue({
             })
             this[type] = data
         })
+        ipcRenderer.on('restore', (e, k) => {
+            let [type, key] = k.split(':')
+            let data = [...this[type]]
+            data = data.map(ec => {
+                if (ec.key.toString() === key.toString()) {
+                    ec.trashed_at = false
+                    ec.updated_at = Date.now()
+                }
+                return ec;
+            })
+            this[type] = data
+        })
     },
     updated() {
         updated = true

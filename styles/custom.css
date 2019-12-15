@@ -25,16 +25,11 @@
     width: 0px;
     height: 0px;
 }
-.fade-leave-active{
-    display: none;
-}
 
-.fade-enter-active {
+.fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
 }
-.fade-leave-to{
-    display: none;
-}
-.fade-enter{
+
+.fade-enter, .fade-leave-to {
     opacity: 0;
 }
