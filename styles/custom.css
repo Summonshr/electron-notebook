@@ -16,8 +16,25 @@
 
 ::-webkit-scrollbar-track-piece:end {
     background: transparent;
+    width: 0px;
+    height: 0px;
 }
 
 ::-webkit-scrollbar-track-piece:start {
     background: transparent;
+    width: 0px;
+    height: 0px;
+}
+.fade-leave-active{
+    display: none;
+}
+
+.fade-enter-active {
+    transition: opacity .5s;
+}
+.fade-leave-to{
+    display: none;
+}
+.fade-enter{
+    opacity: 0;
 }

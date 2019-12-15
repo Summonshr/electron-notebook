@@ -66,24 +66,28 @@ const initial = {
     {
       key: '1',
       title: 'A new hope',
-      disabled: true
+      disabled: true,
+      created_at: Date.now(),
+      updated_at: Date.now()
     },
     {
       key: '2',
       title: 'Empite Strikes Back',
-      disabled: true
+      disabled: true,
+      created_at: Date.now(),
+      updated_at: Date.now()
     },
     {
       key: '3',
       title: 'The Return of the Jedi',
-      disabled: true
+      disabled: true,
+      created_at: Date.now(),
+      updated_at: Date.now()
     }
   ]
 }
 
 require('electron-reload')(__dirname);
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 let filepath = path.join(app.getPath('documents'), 'notes.json')
 ipcMain.on('get-data', e => {

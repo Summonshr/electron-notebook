@@ -3,72 +3,7 @@ let shuffle = require("lodash/shuffle")
 let sortBy = require("lodash/sortBy")
 let ipcRenderer = require('electron').ipcRenderer
 let { send, sendSync, on } = ipcRenderer
-
-let sample = {
-    categories: [
-        'JEDI MIND TRICK',
-        'THE FORCE',
-        'THE DARK SIDE',
-        'STORMTROOPER',
-        'DROID',
-        'STORMTROOPER',
-        'PHANTOM MENACE'
-    ],
-    notes: [
-        {
-            title: 'The Force will be with you. Always',
-            description: 'Obi-Wan Kenobi'
-        },
-        {
-            title: 'Yoda',
-            description: 'When gone am I, the last of the Jedi will you be. The Force runs strong in your family. Pass on what you have learned.'
-        },
-        {
-            title: 'Darth Vader',
-            description: 'Just for once, let me look on you with my own eyes.'
-        },
-        {
-            title: 'The begining',
-            description: 'Just for once, let me look on you with my own eyes.'
-        },
-        {
-            title: 'Anakin Skywalker',
-            description: 'Someday I will be the most powerful Jedi ever.'
-        },
-        {
-            title: 'Obi-Wan Kenobi',
-            description: 'If you strike me down I shall become more powerful than you can possibly imagine.'
-        },
-        {
-            title: 'Han Solo',
-            description: 'It’s the ship that made the Kessel run in less than twelve parsecs. I’ve outrun Imperial starships. '
-        },
-        {
-            title: 'Darth Vader',
-            description: 'Luke, you can destroy the Emperor. He has foreseen this. '
-        },
-        {
-            title: 'Darth Maul',
-            description: 'Fear is the path to the dark side. Fear leads to anger; anger leads to hate; hate leads to suffering. I sense much fear in you.'
-        },
-        {
-            title: 'Darth Maul',
-            description: 'At last we will reveal ourselves to the Jedi. At last we will have revenge.'
-        },
-        {
-            title: 'Yoda',
-            description: 'Train yourself to let go of everything you fear to lose.'
-        },
-        {
-            title: 'Obi-Wan Kenobi',
-            description: 'I have taught you everything I know. And you have become a far greater Jedi than I could ever hope to be.'
-        },
-        {
-            title: 'Darth Vader',
-            description: 'Don’t be too proud of this technological terror you’ve constructed.'
-        }
-    ]
-}
+let sample = require('./config/sample')
 let updated = false;
 let data = sendSync('get-data', 'now')
 new Vue({
@@ -102,7 +37,7 @@ new Vue({
         addCategory() {
             let random = this.random()
             let categories = this.categories
-            categories.push({ title: shuffle(sample.categories)[0], disabled: true, key: random })
+            categories.push({ title: shuffle(sample.categories)[0], disabled: true, key: random,created_at: Date.now() })
             this.categories = categories
             this.addNote(null, random)
             this.selected.category = random
@@ -160,19 +95,24 @@ new Vue({
         category() {
             return this.selected.category && this.categories.filter(e => e.key == this.selected.category)[0]
         },
+        categoryList(){
+            return sortBy(this.categories, 'updated_at').reverse()
+        },
         list() {
             let notes = this.notes
 
             if (this.selected.category.toLowerCase() === 'trash') {
-                notes = sortBy(notes.filter(e => e.trashed_at), 'updated_at');
+                notes = notes.filter(e => e.trashed_at);
             } else if (this.selected.category) {
-                notes = sortBy(notes.filter(e => !e.trashed_at && e.category === this.selected.category), 'updated_at')
+                notes = notes.filter(e => !e.trashed_at && e.category === this.selected.category)
             } else if (!this.selected.category) {
-                notes = sortBy(notes, 'updated_at').filter(e => !e.trashed_at)
+                notes = notes.filter(e => !e.trashed_at)
                 if (this.search) {
                     notes = notes.filter(note => JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
                 }
             }
+
+            notes = sortBy(notes,'updated_at')
 
             notes = notes.reverse()
 
@@ -201,14 +141,11 @@ new Vue({
                 }
                 return ec;
             })
-            console.log(data)
             this[type] = data
         })
     },
     updated() {
         updated = true
     },
-    data: {
-        ...data
-    }
+    data
 })
