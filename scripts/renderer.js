@@ -1,5 +1,6 @@
 Vue.use(VueMarkdown);
 let shuffle = require("lodash/shuffle")
+let upper = require("lodash/capitalize")
 let sortBy = require("lodash/sortBy")
 var moment = require("moment")
 let ipcRenderer = require('electron').ipcRenderer
@@ -11,10 +12,9 @@ new Vue({
     el: '#app',
     computed: {
         currentCategoryTitle: function () {
-            if (this.selected.category.toLowerCase() === 'trash') {
-                return "Trash"
+            if(this.selected.type) {
+                return upper(this.selected.type)
             }
-
             if (this.selected.category) {
                 return this.categories.filter(ec => ec.key === this.selected.category)[0].title
             }
@@ -60,29 +60,26 @@ new Vue({
             return sortBy(this.categories, 'updated_at').filter(category => !category.trashed_at).reverse()
         },
         list() {
-            let notes = this.notes
+            let notes = sortBy(this.notes,'updated_at').reverse()
 
-            if (this.selected.category.toLowerCase() === 'trash') {
-                notes = notes.filter(e => e.trashed_at);
-            } else if (this.selected.category) {
-                notes = notes.filter(e => !e.trashed_at && e.category === this.selected.category)
-            } else if (!this.selected.category) {
-                notes = notes.filter(e => !e.trashed_at)
-                if (this.search) {
-                    notes = notes.filter(note => JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
+            if (this.selected.type === 'notes') {
+                if(this.search){
+                    notes = notes.filter(note=>JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
                 }
+                return notes.filter(e => !e.trashed_at);
+            } 
+
+            if (this.selected.type === 'trash') {
+                return  notes.filter(e => e.trashed_at);
+            } 
+            if (this.selected.type === 'favourites') {
+                return  notes.filter(e => this.favourites.includes(e.key));
             }
 
-            notes = sortBy(notes, 'updated_at')
-
-            notes = notes.reverse()
-
-            if (notes.length > 0) {
-                this.selected.note = notes[0].key
+            if(this.selected.category) {
+                return notes.filter(e=>!e.trashed_at && e.category === this.selected.category)
             }
-
-            return notes
-
+            return [];
         }
     },
     methods: {
@@ -93,7 +90,7 @@ new Vue({
         },
         removeFromTrash() {
             let accept = sendSync('confirm', { message: 'This action cannot be reversed', title: 'Are you sure?' })
-            if(accept === 0) {
+            if (accept === 0) {
                 let notes = this.notes
                 notes = notes.filter(e => !e.trashed_at)
                 if (this.current.trashed_at) {
@@ -133,8 +130,16 @@ new Vue({
             this.categories.map(category => { category.disabled = true })
             this.selected.category = category.key
             this.transition = 'fade-in'
+            this.selected.type = ''
             let notes = this.notes.filter(e => e.category === category.key)
             this.selected.note = notes.length > 0 ? notes[0].key : ''
+        },
+        togglefromFavourite(key) {
+            if (this.favourites.includes(key)) {
+                this.favourites = [...this.favourites].filter(k => k !== key)
+                return
+            }
+            this.favourites.push(key)
         },
         delete_categories(key) {
 
@@ -174,6 +179,9 @@ new Vue({
             this.transition = 'zoom-out'
             let [type, key] = k.split(':')
             this['delete_' + type](key)
+        })
+        ipcRenderer.on('favourite:add', (e, k) => {
+            this.togglefromFavourite(k)
         })
         ipcRenderer.on('restore', (e, k) => {
             this.transition = 'fade'
