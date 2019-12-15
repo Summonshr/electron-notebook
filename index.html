@@ -65,7 +65,7 @@
         <button v-if="selected.category.toLowerCase()==='trash' && list.length !== 0" @click.prevent="removeFromTrash"
           class="bg-red-200 hover:bg-red-800 font-semibold rounded text-red-900 hover:text-red-200 px-2 h-6 mr-2">Empty</button>
         <button v-if="list.length>0 && selected.category && selected.category.toLowerCase() !=='trash'"
-          @click.prevent="addNote" class="bg-teal-400 font-semibold rounded text-teal-900 px-2 bg-teal-100 h-6 mr-2">Add Note +</button>
+          @click.prevent="addNote" class="font-semibold rounded hover:text-teal-200 text-teal-100 px-2 hover:bg-teal-900 bg-teal-800 h-6 mr-2">Add Note +</button>
       </div>
       <div v-if="list.length === 0 && currentCategoryTitle !== ''" class="p-4">
         <div class="bg-teal-100 p-4 shadow" v-if="currentCategoryTitle ==='Trash'">
@@ -82,6 +82,10 @@
           @click="select(note)">
           <h3 v-text="note.title || 'What\'s the title?'" class="font-semibold "></h3>
           <span v-text="note.description || 'Short and sweet description would be nice'" class="text-xs lg:text-base"></span>
+          <br>
+          <div class="w-full text-right" v-if="note.trashed_at" >
+            <span class="text-xs ">Trashed <span v-html="moment(current.trashed_at).fromNow()"></span></span>
+          </div>
         </a>
       </transition-group>
     </div>
@@ -90,8 +94,8 @@
       <div v-if="selected.note" class="bg-gray-200 text-gray-800 h-full">
         <transition name="fade">
           <div v-if="!editor" class="bg-gray-200 min-h-screen p-2 markdown-body">
-            <span class="absolute top-r right-0 mt-2 mr-2 text-xs text-gray-700">Created at <span
-                v-html="(new Date(current.created_at)).toLocaleString()"></span></span>
+            <span class="absolute top-r right-0 mt-2 mr-2 text-xs text-gray-700">Created <span
+                v-html="moment(current.created_at).fromNow()"></span></span>
             <h2 class="text-2xl mb-0" v-html="title"></h2>
             <div class="mb-4">
               <span class="text-sm text-gray-600" v-html="description"></span>

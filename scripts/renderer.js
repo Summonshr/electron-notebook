@@ -1,6 +1,7 @@
 Vue.use(VueMarkdown);
 let shuffle = require("lodash/shuffle")
 let sortBy = require("lodash/sortBy")
+var moment = require("moment")
 let ipcRenderer = require('electron').ipcRenderer
 let { send, sendSync, on } = ipcRenderer
 let sample = require('./config/sample')
@@ -85,6 +86,7 @@ new Vue({
         }
     },
     methods: {
+        moment,
         editCategory(category) {
             this.categories.map(category => { category.disabled = true })
             this.category.disabled = false
