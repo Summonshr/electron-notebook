@@ -51,7 +51,7 @@
 }
 
 .zoom-out-leave-active {
-    animation-duration: 2s;
+    animation-duration: 0.2s;
     animation-name: zoomOut;
 }
 
@@ -62,18 +62,13 @@
 
 @keyframes zoomOut {
     from {
-        opacity: 1;
     }
     50% {
-        transform: scale3d(0.3, 0.3, 0.3);
         padding: 0;
-        opacity: 0;
-        height: 0;
     }
     to {
         padding: 0;
-        height: 0;
-        display: none;
+        height: 0px;
         opacity: 0;
     }
 }

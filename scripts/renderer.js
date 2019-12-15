@@ -9,6 +9,10 @@ let data = sendSync('get-data', 'now')
 new Vue({
     el: '#app',
     methods: {
+        editCategory(category){
+            this.categories.map(category=>{category.disabled = true})
+            this.category.disabled=false
+        },
         removeFromTrash() {
             let notes = this.notes
             notes = notes.filter(e => !e.trashed_at)
@@ -44,7 +48,7 @@ new Vue({
             this.selected.category = random
         },
         selectCategory(category) {
-            category.disabled = true
+            this.categories.map(category=>{category.disabled = true})
             this.selected.category = category.key
             this.transition='fade-in'
             this.selected.note = this.notes.filter(e => e.category === category.key)[0].key

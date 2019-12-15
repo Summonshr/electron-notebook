@@ -43,7 +43,7 @@
         <div :key="category.key" class="select-none cursor-pointer hover:bg-gray-700 hover:text-gray-400"
           :class="{'bg-gray-700 text-gray-400': selected.category==category.key}" v-for="category in categoryList">
           <a :href="'#category#'+category.key"  class="text-gray-100 w-full h-6 block px-4 h-8 pt-1 text-sm" v-if="category.disabled"
-            @click="selectCategory(category)" @dblclick="category.disabled=false" v-html="'# '+category.title"></a>
+            @click="selectCategory(category)" @dblclick="editCategory(category)" v-html="'# '+category.title"></a>
           <input maxlength="15" v-if="!category.disabled" @keydown.enter="selectCategory(category)"
             @keydown.tab='selectCategory(category)' @keydown.esc="category.disabled=true" v-model="category.title"
             :disabled="category.disabled"
@@ -69,8 +69,8 @@
       </div>
       <transition-group :name="transition">
         <a :has="transition" :href="'#notes#'+note.key + (note.trashed_at ? '#restore' : '')" v-for="note in list"  :key="note.key"
-        class="block bg-gray-200 hover:bg-gray-500 hover:text-gray-900 border-b px-2 cursor-pointer py-1"
-        :class="{'bg-gray-800 text-gray-200 hover:bg-gray-500  hover:text-gray-900': selected.note == note.key}"
+        class="block bg-gray-200 border-b px-2 cursor-pointer py-1"
+        :class="{' hover:bg-gray-500  hover:text-gray-900':selected.note !== note.key, 'bg-gray-800 text-gray-200': selected.note == note.key}"
         @click="select(note)">
         <h3 v-text="note.title || 'What\'s the title?'" class="font-semibold "></h3>
         <span v-text="note.description || 'Short and sweet description would be nice'" class="text-sm"></span>
