@@ -89,15 +89,19 @@ new Vue({
         moment,
         editCategory(category) {
             this.categories.map(category => { category.disabled = true })
-            this.category.disabled = false
+            category.disabled = false
         },
         removeFromTrash() {
-            let notes = this.notes
-            notes = notes.filter(e => !e.trashed_at)
-            if (this.current.trashed_at) {
-                this.selected.note = ''
+            let accept = sendSync('confirm', { message: 'This action cannot be reversed', title: 'Are you sure?' })
+            if(accept === 0) {
+                let notes = this.notes
+                notes = notes.filter(e => !e.trashed_at)
+                if (this.current.trashed_at) {
+                    this.selected.note = ''
+                }
+                this.notes = notes
             }
-            this.notes = notes
+            return
         },
         select(note) {
             this.selected.note = note.key;

@@ -1,8 +1,8 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const fs = require('fs')
 const path = require('path')
-const contextMenu = require('electron-context-menu');
 const initial = require('./initial')
+const contextMenu = require('electron-context-menu');
 contextMenu({
   prepend: (defaultActions, params, browserWindow) => [
     {
@@ -14,7 +14,7 @@ contextMenu({
           type: 'question',
           buttons: ['Ok', 'Cancel'],
           title: 'Delete this item?',
-          message: 'It cannot be reversed.',
+          message: 'It will be in recycle bin.',
           defaultId: 0,
           cancelId: 1
         })
@@ -34,10 +34,11 @@ contextMenu({
   ]
 });
 
-
 require('electron-reload')(__dirname);
+
 let mainWindow
 let filepath = path.join(app.getPath('documents'), 'notes.json')
+
 ipcMain.on('get-data', e => {
   fs.access(filepath, fs.F_OK, (err) => {
     if (err) {
@@ -55,6 +56,19 @@ ipcMain.on('get-data', e => {
 
 ipcMain.on('data', (e, data) => {
   fs.writeFileSync(filepath, JSON.stringify(data))
+})
+
+ipcMain.on('confirm', (e, data) => {
+
+  const choice = dialog.showMessageBox(mainWindow, {
+    type: 'question',
+    buttons: ['Ok', 'Cancel'],
+    title: data.title,
+    message: data.message
+  }).then(({response})=>{
+    e.returnValue = response
+  })
+
 })
 
 function createWindow() {
