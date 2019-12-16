@@ -1,4 +1,6 @@
 Vue.use(VueMarkdown);
+Vue.use(Vuex)
+Vue.use(Vueditor,{})
 let shuffle = require("lodash/shuffle")
 let upper = require("lodash/capitalize")
 let sortBy = require("lodash/sortBy")
@@ -10,6 +12,9 @@ let updated = false;
 let data = sendSync('get-data', 'now')
 new Vue({
     el: '#app',
+    components:{
+        wysiwyg: vueWysiwyg.default.component
+    },
     computed: {
         currentCategoryTitle: function () {
             if(this.selected.type) {
@@ -67,11 +72,11 @@ new Vue({
                     notes = notes.filter(note=>JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
                 }
                 return notes.filter(e => !e.trashed_at);
-            } 
+            }
 
             if (this.selected.type === 'trash') {
                 return  notes.filter(e => e.trashed_at);
-            } 
+            }
             if (this.selected.type === 'favourites') {
                 return  notes.filter(e => this.favourites.includes(e.key));
             }
@@ -207,6 +212,7 @@ new Vue({
         })
     },
     updated() {
+        console.log('updated')
         updated = true
     },
     data

@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="./styles/tailwind.css">
   <link rel="stylesheet" href="./styles/markdown.css">
   <link rel="stylesheet" href="./styles/custom.css">
+  <link rel="stylesheet" href="./node_modules/vueditor/dist/style/vueditor.min.css">
+  <link rel="stylesheet" href="./node_modules/vue-wysiwyg/dist/vueWysiwyg.css">
   <style>
     [v-cloak] {
       display: none;
@@ -185,7 +187,6 @@
             </div>
           </a>
         </div>
-
       </transition-group>
     </div>
     <div class=" flex-1 flex-grow text-white overflow-x-hidden overflow-y-scroll h-screen">
@@ -219,22 +220,22 @@
         <transition name="fade">
           <div v-if="editor" class="flex flex-col h-full bg-gray-100 text-gray-900">
             <div class="flex flex-wrap justify-between items-end border-b-2">
-              <input ref="title" type="text" v-model="title"
+              <input ref="title" type="text" v-model="title" placeholder="Title"
                 class="text-gray-800 text-2xl flex-1 flex-grow px-2 pt-2 bg-gray-100 w-full outline-none font-semibold">
             </div>
-            <input ref="description" type="text" v-model="description"
+            <input ref="description" type="text" v-model="description" placeholder="Description"
               class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-gray-100 text-gray-900 text-sm border-b">
-            <textarea placeholder="Start Writing here. Markdown syntax are supported" ref="editor"
-              @keyup.esc="editor=false" v-if="editor" v-model="note"
-              class="w-full flex-1 bg-gray-300 outline-none p-2 text-gray-100 bg-gray-100 text-gray-900"></textarea>
+            <wysiwyg @keyup.esc="editor=false"  v-model="note" />
           </div>
         </transition>
       </div>
     </div>
-
   </div>
   <script src="./node_modules/vue/dist/vue.js"></script>
+  <script src="./node_modules/vuex/dist/vuex.js"></script>
+  <script src="./node_modules/vueditor/dist/script/vueditor.min.js"></script>
   <script src="./node_modules/vue-markdown/dist/vue-markdown.js"></script>
+  <script src="./node_modules/vue-wysiwyg/dist/vueWysiwyg.js"></script>
   <script src="./scripts/renderer.js"></script>
 </body>
 

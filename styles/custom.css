@@ -98,3 +98,15 @@
 .transition {
     transition: all .5s ease-in-out;
 }
+
+.editr {
+    display: flex;
+    flex: 1;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.editr--content {
+    flex: 1;
+    flex-grow: 1;
+}
