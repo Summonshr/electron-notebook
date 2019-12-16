@@ -24,7 +24,6 @@
     "electron-reload": "^1.5.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "tiptap": "^1.26.5",
     "vue": "^2.6.10",
     "vue-markdown": "^2.2.4",
     "vue-mce": "^1.5.3",

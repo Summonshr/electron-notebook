@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./styles/custom.css">
   <link rel="stylesheet" href="./node_modules/vueditor/dist/style/vueditor.min.css">
   <link rel="stylesheet" href="./node_modules/vue-wysiwyg/dist/vueWysiwyg.css">
+  <link rel="stylesheet" href="./styles/editor.css">
   <style>
     [v-cloak] {
       display: none;
@@ -190,10 +191,10 @@
       </transition-group>
     </div>
     <div class=" flex-1 flex-grow text-white overflow-x-hidden overflow-y-scroll h-screen">
-      <div v-if="selected.note" class="bg-gray-200 text-gray-800 h-full">
+      <div v-if="selected.note" class="bg-gray-200 text-gray-800 h-full ">
         <transition name="fade">
-          <div @dblclick="editor=!editor" v-if="!editor && current" class="bg-gray-200 min-h-screen p-2 markdown-body">
-            <span class="absolute top-r right-0 mt-2 mr-2 text-xs text-gray-700">
+          <div @dblclick="editor=!editor" v-if="!editor && current" class="bg-gray-200 min-h-screen p-2 flex flex-col">
+            <span class="absolute top-r right-0 mt-4 mr-8 text-xs text-gray-700">
               Created <span v-html="moment(current.created_at).fromNow()"></span>
               <p class="h-6 cursor-pointer w-6 inline-block bg-gray-700 hover:bg-gray-900 p-1 rounded mb-0 align-middle ml-2"  @click.prevent="sidebar=true">
                 <svg fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -210,11 +211,13 @@
                 </svg>
               </p>
             </span>
-            <h2 class="text-2xl mb-0" v-html="title"></h2>
-            <div class="mb-4">
-              <span class="text-sm text-gray-600" v-html="description"></span>
+            <div class=" border-t-4 border-gray-900 bg-white px-4 pb-4 h-full w-full flex-grow">
+              <h2 class="text-2xl mb-0" v-html="title"></h2>
+              <div class="mb-4">
+                <span class="text-sm text-gray-600" v-html="description"></span>
+              </div>
+              <div v-html="note"></div>
             </div>
-            <vue-markdown :source="note"></vue-markdown>
           </div>
         </transition>
         <transition name="fade">
@@ -225,7 +228,7 @@
             </div>
             <input ref="description" type="text" v-model="description" placeholder="Description"
               class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-gray-100 text-gray-900 text-sm border-b">
-            <wysiwyg @keyup.esc="editor=false"  v-model="note" />
+            <wysiwyg @keyup.esc="editor=false" class="wysiwyg" v-model="note" />
           </div>
         </transition>
       </div>
