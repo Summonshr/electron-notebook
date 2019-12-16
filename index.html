@@ -143,7 +143,7 @@
           class="font-semibold rounded hover:text-teal-200 text-teal-100 px-2 hover:bg-teal-900 bg-teal-800 h-6 mr-2">Add
           Note +</button>
       </div>
-      <div class="p-2" v-if="currentCategoryTitle ==='Trash' && list.length === 0">
+      <div class="p-2" v-if="currentCategoryTitle === 'Trash' && list.length === 0">
         <div class="bg-teal-100 p-4 shadow" >
           I'm really white trash
         </div>
@@ -182,10 +182,10 @@
 
       </transition-group>
     </div>
-    <div @dblclick="editor=!editor" class=" flex-1 flex-grow text-white overflow-x-hidden overflow-y-scroll h-screen">
+    <div class=" flex-1 flex-grow text-white overflow-x-hidden overflow-y-scroll h-screen">
       <div v-if="selected.note" class="bg-gray-200 text-gray-800 h-full">
         <transition name="fade">
-          <div v-if="!editor && current" class="bg-gray-200 min-h-screen p-2 markdown-body">
+          <div @dblclick="editor=!editor" v-if="!editor && current" class="bg-gray-200 min-h-screen p-2 markdown-body">
             <span class="absolute top-r right-0 mt-2 mr-2 text-xs text-gray-700">
               Created <span v-html="moment(current.created_at).fromNow()"></span>
               <p class="h-6 cursor-pointer w-6 inline-block bg-green-700 hover:bg-green-900 p-1 rounded mb-0 align-middle ml-2"  @click.prevent="sidebar=true">
