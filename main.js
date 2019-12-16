@@ -7,7 +7,7 @@ contextMenu({
   prepend: (defaultActions, params, browserWindow) => [
     {
       label: 'Delete',
-      visible: console.log(params.linkURL.split('#').length) || params.linkURL.split('#').length === 3,
+      visible: params.linkURL.split('#').length === 3,
       click: async () => {
         const [url, type, key] = params.linkURL.split('#')
         const choice = await dialog.showMessageBox(mainWindow, {
@@ -21,6 +21,14 @@ contextMenu({
         if (choice.response === 0) {
           mainWindow.webContents.send('delete', [type, key].join(':'))
         }
+      }
+    },
+    {
+      label: 'Add to Favourite',
+      visible: params.linkURL.split('#').length === 3,
+      click: async () => {
+        const [url, type, key] = params.linkURL.split('#')
+        mainWindow.webContents.send('favourite:add', key)
       }
     },
     {

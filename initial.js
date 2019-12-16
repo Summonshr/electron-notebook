@@ -1,9 +1,13 @@
 module.exports = {
     selected: {
         note: '1a',
-        category: '1c'
+        category: '1c',
+        type: 'notes',
     },
     editor: false,
+    favourites:[
+
+    ],
     search: '',
     sidebar: true,
     transition: 'nothing',
