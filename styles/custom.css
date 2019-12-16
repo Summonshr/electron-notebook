@@ -110,3 +110,10 @@
     flex: 1;
     flex-grow: 1;
 }
+
+.tox-notifications-container{
+    display: none;
+}
+.tox.tox-tinymce{
+    flex: 1 !important;
+}

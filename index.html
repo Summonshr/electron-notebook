@@ -8,8 +8,6 @@
   <link rel="stylesheet" href="./styles/tailwind.css">
   <link rel="stylesheet" href="./styles/markdown.css">
   <link rel="stylesheet" href="./styles/custom.css">
-  <link rel="stylesheet" href="./node_modules/vueditor/dist/style/vueditor.min.css">
-  <link rel="stylesheet" href="./node_modules/vue-wysiwyg/dist/vueWysiwyg.css">
   <link rel="stylesheet" href="./styles/editor.css">
   <style>
     [v-cloak] {
@@ -216,7 +214,7 @@
               <div class="mb-4">
                 <span class="text-sm text-gray-600" v-html="description"></span>
               </div>
-              <div v-html="note"></div>
+              <div class="wysiwyg" v-html="note"></div>
             </div>
           </div>
         </transition>
@@ -228,17 +226,15 @@
             </div>
             <input ref="description" type="text" v-model="description" placeholder="Description"
               class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-gray-100 text-gray-900 text-sm border-b">
-            <wysiwyg @keyup.esc="editor=false" class="wysiwyg" v-model="note" />
+              <tinymce-editor v-model="note" api-key="r7lio0e2euvr12x1ye682aj5vbm8zqq7quj4ffhxqs5qqlg4" :init="{plugins: 'wordcount'}"></tinymce-editor>
           </div>
         </transition>
       </div>
     </div>
   </div>
   <script src="./node_modules/vue/dist/vue.js"></script>
-  <script src="./node_modules/vuex/dist/vuex.js"></script>
-  <script src="./node_modules/vueditor/dist/script/vueditor.min.js"></script>
-  <script src="./node_modules/vue-markdown/dist/vue-markdown.js"></script>
-  <script src="./node_modules/vue-wysiwyg/dist/vueWysiwyg.js"></script>
+  <script src="https://cdn.tiny.cloud/1/r7lio0e2euvr12x1ye682aj5vbm8zqq7quj4ffhxqs5qqlg4/tinymce/5/tinymce.min.js"></script>
+  <script src="./node_modules/@tinymce/tinymce-vue/lib/browser/tinymce-vue.min.js"></script>
   <script src="./scripts/renderer.js"></script>
 </body>
 

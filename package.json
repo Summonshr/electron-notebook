@@ -20,6 +20,7 @@
     "electron": "^7.1.4"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^3.0.1",
     "electron-context-menu": "^0.15.1",
     "electron-reload": "^1.5.0",
     "lodash": "^4.17.15",

@@ -1,6 +1,4 @@
-Vue.use(VueMarkdown);
-Vue.use(Vuex)
-Vue.use(Vueditor,{})
+var Editor = require('@tinymce/tinymce-vue').default;
 let shuffle = require("lodash/shuffle")
 let upper = require("lodash/capitalize")
 let sortBy = require("lodash/sortBy")
@@ -13,7 +11,7 @@ let data = sendSync('get-data', 'now')
 new Vue({
     el: '#app',
     components:{
-        wysiwyg: vueWysiwyg.default.component
+        'tinymce-editor': Editor
     },
     computed: {
         currentCategoryTitle: function () {
