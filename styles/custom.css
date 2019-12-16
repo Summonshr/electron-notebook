@@ -42,6 +42,18 @@
     opacity: 0;
 }
 
+.fade-both-enter-active, .fade-both-leave-active {
+    transition: opacity .5s;
+}
+
+.fade-both-enter, .fade-both-leave-to {
+    opacity: 0;
+}
+
+.hidden-sidebar {
+    margin-right: 0px !important;
+}
+
 .fade-in-leave-active {
     display: none;
 }
@@ -73,4 +85,16 @@
         height: 0px;
         opacity: 0;
     }
+}
+
+.opened {
+    margin-right: 0;
+}
+
+.closed {
+    margin-right: -320px
+}
+
+.transition {
+    transition: all .5s ease-in-out;
 }

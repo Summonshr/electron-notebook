@@ -5,6 +5,7 @@ module.exports = {
     },
     editor: false,
     search: '',
+    sidebar: true,
     transition: 'nothing',
     notes: [
         {
