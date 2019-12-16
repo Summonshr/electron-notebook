@@ -18,59 +18,59 @@
 <body>
   <div id="app" v-cloak class="flex flex-wrap relative overflow-hidden">
     <transition name="fade-both">
-      <div v-if="sidebar" @click="sidebar=false" class="z-10 w-full h-screen absolute bg-blue-500 opacity-25"></div>
+      <div v-if="sidebar" @click="sidebar=false" class="z-10 w-full h-screen absolute bg-gray-500 opacity-25"></div>
     </transition>
     <div :class='sidebar ? "transition opened" : "transition closed"'
-      class="z-20 absolute top-0 right-0 bg-blue-200 shadow h-screen overflow-x-hidden overflow-y-scroll max-w-xs w-full">
+      class="z-20 absolute top-0 right-0 bg-gray-200 shadow h-screen overflow-x-hidden overflow-y-scroll max-w-xs w-full">
       <div class="flex flex-wrap mt-2  px-2 relative">
-        <a href="#" class="bg-blue-300 text-blue-800 font-bold shadow rounded cursor-pointer p-2 mx-1">
+        <a href="#" class="bg-gray-300 text-gray-800 font-bold shadow rounded cursor-pointer p-2 mx-1">
           To Do
         </a>
-        <a href="#" class="bg-yellow-300 text-yellow-800 font-bold shadow rounded cursor-pointer p-2 mx-1">
+        <a href="#" class="bg-gray-300 text-gray-800 font-bold shadow rounded cursor-pointer p-2 mx-1">
           Working
         </a>
-        <a href="#" class="bg-green-300 text-green-800 font-bold shadow rounded cursor-pointer p-2 mx-1">
+        <a href="#" class="bg-gray-300 text-gray-800 font-bold shadow rounded cursor-pointer p-2 mx-1">
           Done
         </a>
         <a href="#" @click.prevent="sidebar=false"
-          class="absolute top-0 right-0 mr-2 bg-red-200 hover:bg-red-800 text-red-900 hover:text-red-200 w-8 h-8 rounded-full flex items-center justify-center">X</a>
+          class="absolute top-0 right-0 mr-2 bg-gray-200 hover:bg-gray-800 text-gray-900 hover:text-gray-200 w-8 h-8 rounded-full flex items-center justify-center">X</a>
       </div>
       <div class="p-2 mt-2">
         <ul class="shadow">
-          <li class="border-b pl-2 py-2 bg-blue-100 hover:bg-blue-200 cursor-pointer select-none">
+          <li class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
             <span>Watch all star wars movies</span>
             <div class="mt-2">
-              <button title="Move to To - Do" class="bg-blue-300 text-blue-800 font-semibold px-2 rounded">T</button>
+              <button title="Move to To - Do" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">T</button>
               <button title="Move to Working"
-                class="bg-yellow-300 text-yellow-800 font-semibold px-2 rounded">W</button>
-              <button title="Move to Done" class="bg-green-300 text-green-800 font-semibold px-2 rounded">D</button>
+                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
+              <button title="Move to Done" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">D</button>
             </div>
           </li>
-          <li class="border-b pl-2 py-2 bg-green-100 hover:bg-green-200 cursor-pointer select-none">
+          <li class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
             <span>Buy Dark Knight DVD</span>
             <div class="mt-2">
-              <button title="Move to To - Do" class="bg-blue-300 text-blue-800 font-semibold px-2 rounded">T</button>
+              <button title="Move to To - Do" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">T</button>
               <button title="Move to Working"
-                class="bg-yellow-300 text-yellow-800 font-semibold px-2 rounded">W</button>
-              <button title="Move to Done" class="bg-green-300 text-green-800 font-semibold px-2 rounded">D</button>
+                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
+              <button title="Move to Done" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">D</button>
             </div>
           </li>
-          <li class="border-b pl-2 py-2 bg-blue-100 hover:bg-blue-200 cursor-pointer select-none">
+          <li class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
             <span>Pass MBA</span>
             <div class="mt-2">
-              <button title="Move to To - Do" class="bg-blue-300 text-blue-800 font-semibold px-2 rounded">T</button>
+              <button title="Move to To - Do" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">T</button>
               <button title="Move to Working"
-                class="bg-yellow-300 text-yellow-800 font-semibold px-2 rounded">W</button>
-              <button title="Move to Done" class="bg-green-300 text-green-800 font-semibold px-2 rounded">D</button>
+                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
+              <button title="Move to Done" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">D</button>
             </div>
           </li>
-          <li class="border-b pl-2 py-2 bg-green-100 hover:bg-green-200 cursor-pointer select-none">
+          <li class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
             <span>Learn Swimming</span>
             <div class="mt-2">
-              <button title="Move to To - Do" class="bg-blue-300 text-blue-800 font-semibold px-2 rounded">T</button>
+              <button title="Move to To - Do" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">T</button>
               <button title="Move to Working"
-                class="bg-yellow-300 text-yellow-800 font-semibold px-2 rounded">W</button>
-              <button title="Move to Done" class="bg-green-300 text-green-800 font-semibold px-2 rounded">D</button>
+                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
+              <button title="Move to Done" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">D</button>
             </div>
           </li>
         </ul>
@@ -79,12 +79,14 @@
     <div id="sidebar" class="w-48 h-screen bg-gray-800  overflow-x-hidden overflow-y-scroll ">
       <div class=" p-2 flex flex-wrap justify-between border-b border-gray-800">
         <h2 class="text-gray-300">NoteBook</h2 class="text-gray-300">
-        <button @click="addCategory" class="text-gray-100 bg-blue-600 hover:bg-blue-800 px-2 leading-normal rounded">New
+        <button @click="addCategory" class="text-gray-100 bg-gray-600 hover:bg-gray-800 px-2 leading-normal rounded">New
           +</button>
       </div>
       <div class="">
         <ul class="select-none cursor-pointer mb-2">
-          <li class="flex items-center px-4">
+          <li class="flex items-center px-4"
+          :class="{'bg-gray-700 text-gray-400': selected.type === 'notes'}"
+          >
             <svg fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
               viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
@@ -94,7 +96,9 @@
             <span class="text-gray-100 w-full h-6 block px-2 h-8 pt-1 text-sm"
               @click="selected.type='notes'">Notes</span>
           </li>
-          <li class="flex items-center px-4">
+          <li class="flex items-center px-4"
+          :class="{'bg-gray-700 text-gray-400': selected.type === 'favourites'}"
+          >
             <svg class="z-10" fill="#fff" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
               viewBox="0 0 24 24">
               <path
@@ -104,7 +108,9 @@
               @click="selected.type='favourites'">Favourite
             </span>
           </li >
-          <li class="flex items-center px-4">
+          <li class="flex items-center px-4"
+          :class="{'bg-gray-700 text-gray-400': selected.type === 'trash'}"
+          >
             <svg class="inline" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px"
               height="16px">
               <path
@@ -115,7 +121,7 @@
           </li>
         </ul>
         <div :key="category.key" class="select-none cursor-pointer hover:bg-gray-700 hover:text-gray-400"
-          :class="{'bg-gray-700 text-gray-400': selected.category==category.key}" v-for="category in categoryList">
+          :class="{'bg-gray-700 text-gray-400': !selected.type && selected.category==category.key}" v-for="category in categoryList">
           <a :href="'#categories#'+category.key"
             class="text-gray-100 w-full h-6 block px-2 lg:px-4 h-8 pt-2 lg:pt-1 text-xs lg:text-sm"
             v-if="category.disabled" @click="selectCategory(category)" @dblclick="editCategory(category)"
@@ -123,10 +129,10 @@
           <input maxlength="15" v-if="!category.disabled" @keydown.enter="selectCategory(category)"
             @keydown.tab='selectCategory(category)' @keydown.esc="category.disabled=true" v-model="category.title"
             :disabled="category.disabled"
-            class="bg-blue-200 w-full px-4 h-8 pt-1 text-blue-900 outline-none h-6 border-b border-blue-300" />
+            class="bg-gray-200 w-full px-4 h-8 pt-1 text-gray-900 outline-none h-6 border-b border-gray-300" />
         </div>
         <div v-if="categoryList.length === 0" class="p-4">
-          <button @click="addCategory" class="w-full bg-teal-700 text-teal-100 px-2 py-1 rounded">Create
+          <button @click="addCategory" class="w-full bg-gray-700 text-gray-100 px-2 py-1 rounded">Create
             Category</button>
         </div>
       </div>
@@ -137,25 +143,25 @@
         <input @keydown.esc='search=""' autofocus v-model="search" type="text" v-if='selected.type==="notes"'
           placeholder="Search for notes" class="w-full h-full p-2">
         <button v-if="selected.category.toLowerCase()==='trash' && list.length !== 0" @click.prevent="removeFromTrash"
-          class="bg-red-200 hover:bg-red-800 font-semibold rounded text-red-900 hover:text-red-200 px-2 h-6 mr-2">Empty</button>
+          class="bg-gray-200 hover:bg-gray-800 font-semibold rounded text-gray-900 hover:text-gray-200 px-2 h-6 mr-2">Empty</button>
         <button v-if="!selected.type && list.length>0 && selected.category && selected.category.toLowerCase() !=='trash'"
           @click.prevent="addNote"
-          class="font-semibold rounded hover:text-teal-200 text-teal-100 px-2 hover:bg-teal-900 bg-teal-800 h-6 mr-2">Add
+          class="font-semibold rounded hover:text-gray-200 text-gray-100 px-2 hover:bg-gray-900 bg-gray-800 h-6 mr-2">Add
           Note +</button>
       </div>
       <div class="p-2" v-if="currentCategoryTitle === 'Trash' && list.length === 0">
-        <div class="bg-teal-100 p-4 shadow" >
+        <div class="bg-gray-100 p-4 shadow" >
           I'm really white trash
         </div>
       </div>
       <div class="p-2" v-if="currentCategoryTitle ==='Favourites' && list.length === 0">
-        <div class="bg-orange-100 p-4 shadow" >
+        <div class="bg-gray-100 p-4 shadow" >
           Click star icons to add to favorite
         </div>
       </div>
       <div v-if="selected.type === '' && list.length === 0" @click.prevent="addNote" class="p-2">
         <button
-          class="bg-teal-400 font-semibold rounded text-teal-900 px-2 bg-teal-100 h-16 w-full hover:bg-teal-900 hover:text-teal-100 mr-2">
+          class="bg-gray-400 font-semibold rounded text-gray-900 px-2 bg-gray-100 h-16 w-full hover:bg-gray-900 hover:text-gray-100 mr-2">
           Add Note +</button>
       </div>
       <transition-group tag="div" :name="transition">
@@ -163,7 +169,7 @@
           <svg :title="favourites.includes(note.key)? 'Remove from favourite' : 'Add to favourite' "
             @click.prevent="togglefromFavourite(note.key)" class="z-10 absolute top-0 right-0 mt-1 mr-1 h-4 w-4"
             fill="#fff" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path :style="{fill:favourites.includes(note.key) ? 'orange' : 'grey',fillOpacity:1}"
+            <path :style="{fill:favourites.includes(note.key) ? 'gray' : 'grey',fillOpacity:1}"
               d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z" />
           </svg>
           <a :href="'#notes#'+note.key + (note.trashed_at ? '#restore' : '')"
@@ -188,7 +194,7 @@
           <div @dblclick="editor=!editor" v-if="!editor && current" class="bg-gray-200 min-h-screen p-2 markdown-body">
             <span class="absolute top-r right-0 mt-2 mr-2 text-xs text-gray-700">
               Created <span v-html="moment(current.created_at).fromNow()"></span>
-              <p class="h-6 cursor-pointer w-6 inline-block bg-green-700 hover:bg-green-900 p-1 rounded mb-0 align-middle ml-2"  @click.prevent="sidebar=true">
+              <p class="h-6 cursor-pointer w-6 inline-block bg-gray-700 hover:bg-gray-900 p-1 rounded mb-0 align-middle ml-2"  @click.prevent="sidebar=true">
                 <svg fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="10px" viewBox="0 0 150 150"
                   style="enable-background:new 0 0 150 150;" xml:space="preserve">
@@ -214,13 +220,13 @@
           <div v-if="editor" class="flex flex-col h-full bg-gray-100 text-gray-900">
             <div class="flex flex-wrap justify-between items-end border-b-2">
               <input ref="title" type="text" v-model="title"
-                class="text-blue-800 text-2xl flex-1 flex-grow px-2 pt-2 bg-blue-100 w-full outline-none font-semibold">
+                class="text-gray-800 text-2xl flex-1 flex-grow px-2 pt-2 bg-gray-100 w-full outline-none font-semibold">
             </div>
             <input ref="description" type="text" v-model="description"
-              class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-blue-100 text-blue-900 text-sm border-b">
+              class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-gray-100 text-gray-900 text-sm border-b">
             <textarea placeholder="Start Writing here. Markdown syntax are supported" ref="editor"
               @keyup.esc="editor=false" v-if="editor" v-model="note"
-              class="w-full flex-1 bg-gray-300 outline-none p-2 text-gray-100 bg-blue-100 text-blue-900"></textarea>
+              class="w-full flex-1 bg-gray-300 outline-none p-2 text-gray-100 bg-gray-100 text-gray-900"></textarea>
           </div>
         </transition>
       </div>
