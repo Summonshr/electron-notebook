@@ -8,8 +8,10 @@ module.exports = {
     favourites:[
 
     ],
+    todos:[
+
+    ],
     search: '',
-    sidebar: true,
     transition: 'nothing',
     notes: [
         {
