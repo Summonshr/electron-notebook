@@ -28,8 +28,6 @@
     "vue": "^2.6.10",
     "vue-markdown": "^2.2.4",
     "vue-mce": "^1.5.3",
-    "vue-wysiwyg": "^1.7.2",
-    "vueditor": "^0.3.1",
-    "vuex": "^3.1.2"
+    "vue-wysiwyg": "^1.7.2"
   }
 }
