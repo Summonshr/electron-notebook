@@ -25,9 +25,6 @@
     "electron-reload": "^1.5.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "vue": "^2.6.10",
-    "vue-markdown": "^2.2.4",
-    "vue-mce": "^1.5.3",
-    "vue-wysiwyg": "^1.7.2"
+    "vue": "^2.6.10"
   }
 }
