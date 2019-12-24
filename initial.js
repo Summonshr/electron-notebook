@@ -4,16 +4,12 @@ module.exports = {
         category: '1c',
         type: 'notes',
     },
-    editor: false,
     favourites:[
-
+        '1a'
     ],
     todos:[
 
     ],
-    search: '',
-    transition: 'nothing',
-    sidebar: false,
     notes: [
         {
             created_at: Date.now(),

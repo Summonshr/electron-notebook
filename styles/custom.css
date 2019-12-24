@@ -117,3 +117,22 @@
 .tox.tox-tinymce{
     flex: 1 !important;
 }
+
+.ck.ck-editor {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        flex-grow: 1;
+}
+.ck.ck-editor__main {
+    flex: 1;
+    flex-grow: 1;
+    display: flex;
+    width: 100%;
+}
+
+.ck.ck-content{
+    flex: 1;
+    flex-grow: 1;
+    width: 100%;
+}

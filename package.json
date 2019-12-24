@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
+  "name": "notebook",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A NoteBook application made with electron, vue, vuex and tailwindcss",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
@@ -14,20 +14,22 @@
     "TailWindCSS",
     "JavaScript"
   ],
-  "author": "GitHub",
+  "author": "summonshr",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^7.1.4"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^16.0.0",
+    "@ckeditor/ckeditor5-vue": "^1.0.1",
     "@tinymce/tinymce-vue": "^3.0.1",
     "electron-context-menu": "^0.15.1",
     "electron-reload": "^1.5.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
+    "portal-vue": "^2.1.6",
     "vue": "^2.6.10",
-    "vue-markdown": "^2.2.4",
-    "vue-mce": "^1.5.3",
-    "vue-wysiwyg": "^1.7.2"
+    "vuex": "^3.1.2",
+    "vuex-persist": "^2.2.0"
   }
 }
