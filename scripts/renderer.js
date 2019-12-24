@@ -12,7 +12,7 @@ let { mapState } = Vuex
 let sample = require('./config/sample')
 let data = sendSync('get-data', 'now')
 let { VuexPersistence } = require('vuex-persist')
-let PortalVue = require('portal-vue')
+let PortalVue = require('portal-vue').default
 Vue.use(PortalVue)
 let fs = require('fs')
 
@@ -44,7 +44,7 @@ Vue.component('note', {
         moment
     },
     components: {
-        'tinymce-editor': Editor
+        'tinymce-editor': Editor,
     },
     data() {
         return { editor: false }
