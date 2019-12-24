@@ -1,0 +1,36 @@
+<div class=" flex-1 flex-grow text-white overflow-x-hidden overflow-y-scroll h-screen">
+    <div v-if="current" class="bg-gray-200 text-gray-800 h-full ">
+        <transition name="fade">
+            <div @dblclick="editor=!editor" v-if="!editor && current"
+                class="bg-gray-200 min-h-screen p-2 flex flex-col">
+                <span class="absolute top-r right-0 mt-4 mr-8 text-xs text-gray-700">
+                    Created <span v-html="moment(current.created_at).fromNow()"></span>
+                    <portal destination="menu-bar"></portal>
+                </span>
+                <div class=" border-t-4 border-gray-900 bg-white px-4 pb-4 h-full w-full flex-grow">
+                    <h2 class="text-2xl mb-0" v-html="title"></h2>
+                    <div class="mb-4">
+                        <span class="text-sm text-gray-600" v-html="description"></span>
+                    </div>
+                    <div class="wysiwyg" v-html="note"></div>
+                </div>
+            </div>
+        </transition>
+        <transition name="fade">
+            <div v-if="editor" class="flex flex-col h-full bg-gray-100 text-gray-900">
+                <div class="flex flex-wrap justify-between items-end border-b-2">
+                    <input ref="title" type="text" v-model="title" placeholder="Title"
+                        class="text-gray-800 text-2xl flex-1 flex-grow px-2 pt-2 bg-gray-100 w-full outline-none font-semibold">
+                </div>
+                <input ref="description" type="text" v-model="description" placeholder="Description"
+                    class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-gray-100 text-gray-900 text-sm border-b">
+                <tinymce-editor v-model="note" api-key="r7lio0e2euvr12x1ye682aj5vbm8zqq7quj4ffhxqs5qqlg4"
+                    :init="{toolbar:'casechange a11ycheck code print',plugins: 'mentions code textpattern tinycomments casechange a11ychecker wordcount paste link'}">
+                </tinymce-editor>
+            </div>
+        </transition>
+    </div>
+    <div class='border-t-4 max-w-sm border-orange-500 bg-orange-100 border p-6 text-orange-900 shadow mx-auto mt-16'>
+        <div>Select a note</div>
+    </div>
+</div>

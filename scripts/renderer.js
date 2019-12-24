@@ -5,25 +5,52 @@ let sortBy = require("lodash/sortBy")
 var moment = require("moment")
 let ipcRenderer = require('electron').ipcRenderer
 let { send, sendSync, on } = ipcRenderer
+let Vue = require('vue/dist/vue')
+let Vuex = require('vuex')
+Vue.use(Vuex)
+let { mapState } = Vuex
 let sample = require('./config/sample')
-let updated = false;
 let data = sendSync('get-data', 'now')
-new Vue({
-    el: '#app',
-    components:{
+let { VuexPersistence } = require('vuex-persist')
+let PortalVue = require('portal-vue')
+Vue.use(PortalVue)
+let fs = require('fs')
+
+const vuexLocal = new VuexPersistence({
+    storage: {
+        getItem() {
+            return data
+        },
+        setItem(name, data) {
+            send('data', data)
+        }
+    }
+})
+
+const random = function () {
+    return Math.round(Math.random() * 1000000).toString()
+}
+
+Vue.component('to-do', {
+    template: fs.readFileSync('./templates/to-do.html', 'utf-8'),
+    data() {
+        return { sidebar: true }
+    }
+})
+
+Vue.component('note', {
+    template: fs.readFileSync('./templates/content.html', 'utf-8'),
+    methods: {
+        moment
+    },
+    components: {
         'tinymce-editor': Editor
     },
+    data() {
+        return { editor: false }
+    },
     computed: {
-        currentCategoryTitle: function () {
-            if(this.selected.type) {
-                return upper(this.selected.type)
-            }
-            if (this.selected.category) {
-                return this.categories.filter(ec => ec.key === this.selected.category)[0].title
-            }
-
-            return ''
-        },
+        ...mapState(['notes', 'categories', 'favourites', 'selected', 'current']),
         current: {
             get() {
                 return this.notes.filter(e => e.key === this.selected.note)[0]
@@ -31,153 +58,234 @@ new Vue({
         },
         title: {
             get() {
-                return this.current.title
+                return this.current && this.current.title
             },
             set(title) {
-                this.notes.filter(e => e.key === this.selected.note)[0].updated_at = Date.now()
-                this.notes.filter(e => e.key === this.selected.note)[0].title = title
+                this.current && store.commit('updateNote', { title })
             }
         },
         description: {
             get() {
-                return this.current.description
+                return this.current && this.current.description
             },
             set(description) {
-                this.notes.filter(e => e.key === this.selected.note)[0].updated_at = Date.now()
-                this.notes.filter(e => e.key === this.selected.note)[0].description = description
+                store.commit('updateNote', { description })
             }
         },
         note: {
             get() {
-                return this.current.content
+                return this.current && this.current.content
             },
             set(content) {
-                this.notes.filter(e => e.key === this.selected.note)[0].updated_at = Date.now()
-                this.notes.filter(e => e.key === this.selected.note)[0].content = content
+                store.commit('updateNote', { content })
             }
         },
-        category() {
-            return this.selected.category && this.categories.filter(e => e.key == this.selected.category)[0]
-        },
-        categoryList() {
-            return sortBy(this.categories, 'updated_at').filter(category => !category.trashed_at).reverse()
-        },
+    }
+
+})
+
+Vue.component('note-list', {
+    template: fs.readFileSync('./templates/note-list.html', 'utf-8'),
+    computed: {
+        ...mapState(['notes', 'categories', 'favourites', 'selected', 'current']),
         list() {
-            let notes = sortBy(this.notes,'updated_at').reverse()
+            let notes = sortBy(this.notes, 'updated_at').reverse()
 
             if (this.selected.type === 'notes') {
-                if(this.search){
-                    notes = notes.filter(note=>JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
+
+                if (this.search) {
+                    notes = notes.filter(note => JSON.stringify(note).toLowerCase().indexOf(this.search.toLowerCase()) > -1)
                 }
+
                 return notes.filter(e => !e.trashed_at);
+
             }
 
             if (this.selected.type === 'trash') {
-                return  notes.filter(e => e.trashed_at);
-            }
-            if (this.selected.type === 'favourites') {
-                return  notes.filter(e => this.favourites.includes(e.key));
+                return notes.filter(e => e.trashed_at);
             }
 
-            if(this.selected.category) {
-                return notes.filter(e=>!e.trashed_at && e.category === this.selected.category)
+            if (this.selected.type === 'favourites') {
+                return notes.filter(e => !e.trashed_at && this.favourites.includes(e.key));
             }
+
+            if (this.selected.category) {
+                return notes.filter(e => !e.trashed_at && e.category === this.selected.category)
+            }
+
             return [];
-        }
+        },
+        currentCategoryTitle: function () {
+
+            if (this.selected.type) {
+                return upper(this.selected.type)
+            }
+
+            if (this.selected.category) {
+                let first = this.categories.filter(category => category.key === this.selected.category)[0]
+                if (!first) {
+                    return ''
+                }
+                return first.title
+            }
+
+            return ''
+        },
     },
     methods: {
-        moment,
-        editCategory(category) {
-            this.categories.map(category => { category.disabled = true })
-            category.disabled = false
-        },
         removeFromTrash() {
             let accept = sendSync('confirm', { message: 'This action cannot be reversed', title: 'Are you sure?' })
-            if (accept === 0) {
-                let notes = this.notes
-                notes = notes.filter(e => !e.trashed_at)
-                if (this.current.trashed_at) {
-                    this.selected.note = ''
-                }
-                this.notes = notes
-            }
+            accept === 0 && store.commit('emptyTrash')
             return
-        },
-        select(note) {
-            this.selected.note = note.key;
-            this.editor = false
-        },
-        random: function () {
-            return Math.round(Math.random() * 1000000).toString()
         },
         addNote(event, category) {
             this.transition = 'fade'
-            let note = shuffle(sample.notes)[0]
-            let notes = this.notes
-            let random = this.random()
-            notes.push({ updated_at: Date.now(), trashed_at: false, created_at: Date.now(), title: note.title, description: note.description, key: random, category: category || this.selected.category, content: '' })
-            this.notes = notes;
             this.editor = true
-            this.selected.note = random
-            setTimeout(() => this.$refs.title.focus(), 400)
+            store.commit('addNote')
         },
-        addCategory() {
-            let random = this.random()
-            let categories = this.categories
-            categories.push({ title: shuffle(sample.categories)[0], disabled: true, key: random, created_at: Date.now() })
-            this.categories = categories
-            this.addNote(null, random)
-            this.selected.category = random
-        },
-        selectCategory(category) {
-            this.categories.map(category => { category.disabled = true })
-            this.selected.category = category.key
-            this.transition = 'fade-in'
-            this.selected.type = ''
-            let notes = this.notes.filter(e => e.category === category.key)
-            this.selected.note = notes.length > 0 ? notes[0].key : ''
+        select(note) {
+            store.commit('selectNote', note.key)
+            this.selected.note = note.key;
+            this.editor = false
         },
         togglefromFavourite(key) {
-            if (this.favourites.includes(key)) {
-                this.favourites = [...this.favourites].filter(k => k !== key)
-                return
-            }
-            this.favourites.push(key)
+            store.commit('toggleFromFavourite', key)
         },
-        delete_categories(key) {
-
-            this.notes = [...this.notes].map(note => {
+    },
+    data() {
+        return { transition: '', search: '' }
+    }
+})
+Vue.component('category-list', {
+    template: fs.readFileSync('./templates/category-list.html', 'utf-8'),
+    computed: {
+        ...mapState(['notes', 'categories', 'favourites', 'selected', 'current']),
+        categoryList() {
+            return sortBy(this.categories, 'updated_at').filter(category => !category.trashed_at).reverse()
+        },
+    },
+    methods: {
+        editCategory(category) {
+            store.commit('editCategory', category.key)
+        },
+        addCategory() {
+            store.commit('addCategory')
+        },
+        selectCategory(key) {
+            this.transition = 'fade-in'
+            store.commit('selectCategory', key)
+        },
+    }
+})
+const store = new Vuex.Store({
+    plugins: [vuexLocal.plugin],
+    state: {
+        notes: [],
+        categories: [],
+        favourites: [],
+        selected: {
+            category: "",
+            note: "",
+            type: ""
+        },
+        current: ''
+    },
+    mutations: {
+        addNote(state) {
+            let note = shuffle(sample.notes)[0]
+            let notes = state.notes
+            let rand = random()
+            notes.push({ updated_at: Date.now(), trashed_at: false, created_at: Date.now(), title: note.title, description: note.description, key: rand, category: state.selected.category, content: '' })
+            state.notes = notes;
+            state.selected.note = rand
+        },
+        addCategory(state) {
+            let rand = random()
+            let categories = state.categories
+            categories.push({ title: shuffle(sample.categories)[0], disabled: true, key: rand, created_at: Date.now() })
+            state.categories = categories
+            state.selected.category = rand
+            this.commit('addNote')
+        },
+        deleteNote(state, key) {
+            state.notes = [...state.notes].map(note => {
+                if (note.key === key) {
+                    note.trashed_at = Date.now();
+                }
+                return note;
+            })
+        },
+        deleteCategory(state, key) {
+            state.notes = [...state.notes].map(note => {
                 if (note.category === key) {
                     note.trashed_at = Date.now();
                 }
                 return note;
             })
 
-            this.categories = [...this.categories].map(e => {
+            state.categories = [...state.categories].map(e => {
                 if (e.key === key) {
                     e.trashed_at = Date.now()
                 }
                 return e
             })
-
         },
-        delete_notes(key) {
-            this.notes = [...this.notes].map(note => {
-                if (note.key === key) {
-                    note.trashed_at = Date.now();
+        selectCategory(state, key) {
+            state.categories.map(category => { category.disabled = true })
+            state.selected.category = key
+            state.selected.type = ''
+            let notes = state.notes.filter(e => e.category === key)
+            state.selected.note = notes.length > 0 ? notes[0].key : ''
+        },
+        toggleFromFavourite(state, key) {
+            if (state.favourites.includes(key)) {
+                state.favourites = [...state.favourites].filter(k => k !== key)
+                return
+            }
+            state.favourites.push(key)
+        },
+        selectNote(state, key) {
+            state.selected.note = key
+        },
+        emptyTrash(state) {
+            let notes = state.notes
+            notes = notes.filter(e => !e.trashed_at)
+            if (state.current.trashed_at) {
+                state.selected.note = ''
+            }
+            state.notes = notes
+        },
+        editCategory(state, key) {
+            state.categories.map(category => {
+                if (category.key === key) {
+                    category.disabled = false
+                    return
                 }
+                category.disabled = true
+            })
+        },
+        updateNote(state, obj) {
+            let notes = state.notes
+            state.notes = notes.map(note => {
+                if (note.key === state.selected.note)
+                    return { ...note, ...obj }
                 return note;
             })
+        },
+    }
+})
+new Vue({
+    store,
+    el: '#app',
+    methods: {
+        delete_categories(key) {
+            store.commit('deleteCategory', key)
+        },
+        delete_notes(key) {
+            store.commit('deleteNote', key)
         }
     },
     mounted() {
-        setInterval(() => {
-            if (!updated) {
-                return;
-            }
-            updated = false
-            send('data', { ...this.$data })
-        }, 5000)
         ipcRenderer.on('delete', (e, k) => {
             this.transition = 'zoom-out'
             let [type, key] = k.split(':')
@@ -208,10 +316,5 @@ new Vue({
             this[type] = data
             this.transition = 'nothing'
         })
-    },
-    updated() {
-        console.log('updated')
-        updated = true
-    },
-    data
+    }
 })
