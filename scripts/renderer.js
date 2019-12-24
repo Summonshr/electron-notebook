@@ -1,10 +1,11 @@
 var Editor = require('@tinymce/tinymce-vue').default;
 let shuffle = require("lodash/shuffle")
+let Vue = require('vue/dist/vue')
 let upper = require("lodash/capitalize")
 let sortBy = require("lodash/sortBy")
 var moment = require("moment")
 let ipcRenderer = require('electron').ipcRenderer
-let { send, sendSync, on } = ipcRenderer
+let { send, sendSync } = ipcRenderer
 let sample = require('./config/sample')
 let updated = false;
 let data = sendSync('get-data', 'now')
@@ -210,7 +211,10 @@ new Vue({
         })
     },
     updated() {
-        console.log('updated')
+        this.$refs['editor'] && this.$refs['editor'].editor && this.$refs['editor'].editor.on('keydown', e=>{
+            e.key ==='Escape' && (this.editor=false)
+            return true
+        })
         updated = true
     },
     data

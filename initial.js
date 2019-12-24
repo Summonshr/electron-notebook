@@ -13,6 +13,7 @@ module.exports = {
     ],
     search: '',
     transition: 'nothing',
+    sidebar: false,
     notes: [
         {
             created_at: Date.now(),

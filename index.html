@@ -42,8 +42,7 @@
             <span>Watch all star wars movies</span>
             <div class="mt-2">
               <button title="Move to To - Do" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">T</button>
-              <button title="Move to Working"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
+              <button title="Move to Working" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
               <button title="Move to Done" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">D</button>
             </div>
           </li>
@@ -51,8 +50,7 @@
             <span>Buy Dark Knight DVD</span>
             <div class="mt-2">
               <button title="Move to To - Do" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">T</button>
-              <button title="Move to Working"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
+              <button title="Move to Working" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
               <button title="Move to Done" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">D</button>
             </div>
           </li>
@@ -60,8 +58,7 @@
             <span>Pass MBA</span>
             <div class="mt-2">
               <button title="Move to To - Do" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">T</button>
-              <button title="Move to Working"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
+              <button title="Move to Working" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
               <button title="Move to Done" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">D</button>
             </div>
           </li>
@@ -69,8 +66,7 @@
             <span>Learn Swimming</span>
             <div class="mt-2">
               <button title="Move to To - Do" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">T</button>
-              <button title="Move to Working"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
+              <button title="Move to Working" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">W</button>
               <button title="Move to Done" class="bg-gray-300 text-gray-800 font-semibold px-2 rounded">D</button>
             </div>
           </li>
@@ -85,9 +81,7 @@
       </div>
       <div class="">
         <ul class="select-none cursor-pointer mb-2">
-          <li class="flex items-center px-4"
-          :class="{'bg-gray-700 text-gray-400': selected.type === 'notes'}"
-          >
+          <li class="flex items-center px-4" :class="{'bg-gray-700 text-gray-400': selected.type === 'notes'}">
             <svg fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
               viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
@@ -97,9 +91,7 @@
             <span class="text-gray-100 w-full h-6 block px-2 h-8 pt-1 text-sm"
               @click="selected.type='notes'">Notes</span>
           </li>
-          <li class="flex items-center px-4"
-          :class="{'bg-gray-700 text-gray-400': selected.type === 'favourites'}"
-          >
+          <li class="flex items-center px-4" :class="{'bg-gray-700 text-gray-400': selected.type === 'favourites'}">
             <svg class="z-10" fill="#fff" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
               viewBox="0 0 24 24">
               <path
@@ -108,10 +100,8 @@
             <span class="text-gray-100 w-full h-6 block px-2 h-8 pt-1 text-sm"
               @click="selected.type='favourites'">Favourite
             </span>
-          </li >
-          <li class="flex items-center px-4"
-          :class="{'bg-gray-700 text-gray-400': selected.type === 'trash'}"
-          >
+          </li>
+          <li class="flex items-center px-4" :class="{'bg-gray-700 text-gray-400': selected.type === 'trash'}">
             <svg class="inline" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px"
               height="16px">
               <path
@@ -122,7 +112,8 @@
           </li>
         </ul>
         <div :key="category.key" class="select-none cursor-pointer hover:bg-gray-700 hover:text-gray-400"
-          :class="{'bg-gray-700 text-gray-400': !selected.type && selected.category==category.key}" v-for="category in categoryList">
+          :class="{'bg-gray-700 text-gray-400': !selected.type && selected.category==category.key}"
+          v-for="category in categoryList">
           <a :href="'#categories#'+category.key"
             class="text-gray-100 w-full h-6 block px-2 lg:px-4 h-8 pt-2 lg:pt-1 text-xs lg:text-sm"
             v-if="category.disabled" @click="selectCategory(category)" @dblclick="editCategory(category)"
@@ -145,18 +136,19 @@
           placeholder="Search for notes" class="w-full h-full p-2">
         <button v-if="selected.category.toLowerCase()==='trash' && list.length !== 0" @click.prevent="removeFromTrash"
           class="bg-gray-200 hover:bg-gray-800 font-semibold rounded text-gray-900 hover:text-gray-200 px-2 h-6 mr-2">Empty</button>
-        <button v-if="!selected.type && list.length>0 && selected.category && selected.category.toLowerCase() !=='trash'"
+        <button
+          v-if="!selected.type && list.length>0 && selected.category && selected.category.toLowerCase() !=='trash'"
           @click.prevent="addNote"
           class="font-semibold rounded hover:text-gray-200 text-gray-100 px-2 hover:bg-gray-900 bg-gray-800 h-6 mr-2">Add
           Note +</button>
       </div>
       <div class="p-2" v-if="currentCategoryTitle === 'Trash' && list.length === 0">
-        <div class="bg-gray-100 p-4 shadow" >
+        <div class="bg-gray-100 p-4 shadow">
           I'm really white trash
         </div>
       </div>
       <div class="p-2" v-if="currentCategoryTitle ==='Favourites' && list.length === 0">
-        <div class="bg-gray-100 p-4 shadow" >
+        <div class="bg-gray-100 p-4 shadow">
           Click star icons to add to favorite
         </div>
       </div>
@@ -191,50 +183,40 @@
     <div class=" flex-1 flex-grow text-white overflow-x-hidden overflow-y-scroll h-screen">
       <div v-if="selected.note" class="bg-gray-200 text-gray-800 h-full ">
         <transition name="fade">
-          <div @dblclick="editor=!editor" v-if="!editor && current" class="bg-gray-200 min-h-screen p-2 flex flex-col">
-            <span class="absolute top-r right-0 mt-4 mr-8 text-xs text-gray-700">
+          <div class="flex flex-col h-full bg-gray-100 text-gray-900 relative">
+            <span class="absolute top-0 right-0 mt-3 mr-12 text-xs text-gray-800">
               Created <span v-html="moment(current.created_at).fromNow()"></span>
-              <p class="h-6 cursor-pointer w-6 inline-block bg-gray-700 hover:bg-gray-900 p-1 rounded mb-0 align-middle ml-2"  @click.prevent="sidebar=true">
-                <svg fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="10px" viewBox="0 0 150 150"
-                  style="enable-background:new 0 0 150 150;" xml:space="preserve">
-                  <g id="XMLID_240_">
-                    <path id="XMLID_241_"
-                      d="M15,30h120c8.284,0,15-6.716,15-15s-6.716-15-15-15H15C6.716,0,0,6.716,0,15S6.716,30,15,30z" />
-                    <path id="XMLID_242_"
-                      d="M135,60H15C6.716,60,0,66.716,0,75s6.716,15,15,15h120c8.284,0,15-6.716,15-15S143.284,60,135,60z" />
-                    <path id="XMLID_243_"
-                      d="M135,120H15c-8.284,0-15,6.716-15,15s6.716,15,15,15h120c8.284,0,15-6.716,15-15S143.284,120,135,120z" />
-                  </g>
-                </svg>
-              </p>
             </span>
-            <div class=" border-t-4 border-gray-900 bg-white px-4 pb-4 h-full w-full flex-grow">
-              <h2 class="text-2xl mb-0" v-html="title"></h2>
-              <div class="mb-4">
-                <span class="text-sm text-gray-600" v-html="description"></span>
-              </div>
-              <div class="wysiwyg" v-html="note"></div>
-            </div>
-          </div>
-        </transition>
-        <transition name="fade">
-          <div v-if="editor" class="flex flex-col h-full bg-gray-100 text-gray-900">
+            <p class="h-6 absolute right-0 top-0 mt-2 mr-2 cursor-pointer w-6 inline-block bg-gray-700 hover:bg-gray-900 p-1 rounded mb-0 align-middle ml-2"
+              @click.prevent="sidebar=true">
+              <svg fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="10px" viewBox="0 0 150 150"
+                style="enable-background:new 0 0 150 150;" xml:space="preserve">
+                <g id="XMLID_240_">
+                  <path id="XMLID_241_"
+                    d="M15,30h120c8.284,0,15-6.716,15-15s-6.716-15-15-15H15C6.716,0,0,6.716,0,15S6.716,30,15,30z" />
+                  <path id="XMLID_242_"
+                    d="M135,60H15C6.716,60,0,66.716,0,75s6.716,15,15,15h120c8.284,0,15-6.716,15-15S143.284,60,135,60z" />
+                  <path id="XMLID_243_"
+                    d="M135,120H15c-8.284,0-15,6.716-15,15s6.716,15,15,15h120c8.284,0,15-6.716,15-15S143.284,120,135,120z" />
+                </g>
+              </svg>
+            </p>
             <div class="flex flex-wrap justify-between items-end border-b-2">
-              <input ref="title" type="text" v-model="title" placeholder="Title"
+              <input :disabled="!editor" ref="title" type="text" v-model="title" placeholder="Title"
                 class="text-gray-800 text-2xl flex-1 flex-grow px-2 pt-2 bg-gray-100 w-full outline-none font-semibold">
             </div>
-            <input ref="description" type="text" v-model="description" placeholder="Description"
+            <input :disabled="!editor" ref="description" type="text" v-model="description" placeholder="Description"
               class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-gray-100 text-gray-900 text-sm border-b">
-              <tinymce-editor v-model="note" api-key="r7lio0e2euvr12x1ye682aj5vbm8zqq7quj4ffhxqs5qqlg4" :init="{plugins: 'wordcount'}"></tinymce-editor>
+            <div v-if="!editor" @dblclick="editor=true" class="wysiwyg p-4 h-full" v-html="note"></div>
+            <tinymce-editor ref="editor" v-if="editor" @keyUp="editor=false" v-model="note"
+              api-key="r7lio0e2euvr12x1ye682aj5vbm8zqq7quj4ffhxqs5qqlg4"
+              :init="{plugins: 'wordcount a11ychecker advlist'}"></tinymce-editor>
           </div>
         </transition>
       </div>
     </div>
   </div>
-  <script src="./node_modules/vue/dist/vue.js"></script>
-  <script src="https://cdn.tiny.cloud/1/r7lio0e2euvr12x1ye682aj5vbm8zqq7quj4ffhxqs5qqlg4/tinymce/5/tinymce.min.js"></script>
-  <script src="./node_modules/@tinymce/tinymce-vue/lib/browser/tinymce-vue.min.js"></script>
   <script src="./scripts/renderer.js"></script>
 </body>
 
