@@ -8,7 +8,7 @@
                     <portal-target class="inline" name="menu-bar"></portal-target>
                 </span>
                 <div class=" border-t-4 border-gray-900 bg-white px-4 pb-4 h-full w-full flex-grow">
-                    <h2 class="text-2xl mb-0" v-html="title"></h2>
+                    <h2 class="text-2xl leading-tight mb-0" v-html="title"></h2>
                     <div class="mb-4">
                         <span class="text-sm text-gray-600" v-html="description"></span>
                     </div>
@@ -17,7 +17,7 @@
             </div>
         </transition>
         <transition name="fade">
-            <div v-if="display" class="flex flex-col h-full bg-gray-100 text-gray-900">
+            <div v-if="display" class="flex flex-col h-full bg-gray-100 text-gray-900 wysiwyg">
                 <div class="flex flex-wrap justify-between items-end border-b-2">
                     <input ref="title" type="text" v-model="title" placeholder="Title"
                         class="text-gray-800 text-2xl flex-1 flex-grow px-2 pt-2 bg-gray-100 w-full outline-none font-semibold">

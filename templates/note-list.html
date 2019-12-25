@@ -1,4 +1,4 @@
-<div id="notes" class="w-64 max-w-xs lg:w-full h-screen bg-gray-400 overflow-x-hidden overflow-y-auto ">
+<div id="notes" class="hidden md:block w-64 max-w-xs lg:w-full h-screen bg-gray-400 overflow-x-hidden overflow-y-auto ">
     <div class="flex flex-wrap justify-between items-center">
         <h2 class="p-2 text-xs lg:text-base" v-text="currentCategoryTitle" v-if="selected.type !== 'notes'"></h2>
         <input @keydown.esc='search=""' autofocus v-model="search" type="text" v-if='selected.type==="notes"'

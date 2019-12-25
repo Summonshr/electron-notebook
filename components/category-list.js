@@ -9,6 +9,9 @@ Vue.component('category-list', {
             return sortBy(this.categories, 'updated_at').filter(category => !category.trashed_at).reverse()
         },
     },
+    data() {
+        return { transition: '' }
+    },
     methods: {
         moment,
         editCategory(category) {

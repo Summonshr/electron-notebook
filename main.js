@@ -87,7 +87,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js')
     }
   })
-
+  mainWindow.maximize()
   mainWindow.loadFile('index.html')
 
   mainWindow.webContents.on('get-data', e => {
@@ -130,4 +130,3 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   if (mainWindow === null) createWindow()
 })
-
