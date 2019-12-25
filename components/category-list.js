@@ -2,7 +2,7 @@ let sortBy = require("lodash/sortBy")
 let { mapState } = Vuex
 let fs = require('fs')
 Vue.component('category-list', {
-    template: fs.readFileSync('./templates/category-list.html', 'utf-8'),
+    template: template('category-list'),
     computed: {
         ...mapState(['notes', 'categories', 'favourites', 'selected', 'current']),
         categoryList() {

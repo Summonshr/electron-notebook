@@ -5,7 +5,7 @@ let { mapState } = Vuex
 let fs = require('fs')
 
 Vue.component('note-list', {
-    template: fs.readFileSync('./templates/note-list.html', 'utf-8'),
+    template: template('note-list'),
     computed: {
         ...mapState(['notes', 'categories', 'favourites', 'selected', 'current']),
         list() {

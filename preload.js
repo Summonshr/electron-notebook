@@ -1,4 +1,6 @@
-window.require  =require
+window.require  = require
+fs = require('fs')
+window.template = template=>fs.readFileSync('./templates/'+template+'.html', 'utf-8')
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)

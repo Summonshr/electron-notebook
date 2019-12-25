@@ -4,7 +4,7 @@ let { mapState } = Vuex
 let fs = require('fs')
 
 Vue.component('note', {
-    template: fs.readFileSync('./templates/content.html', 'utf-8'),
+    template: template('content'),
     methods: {
         moment
     },
