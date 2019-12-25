@@ -1,7 +1,6 @@
 var Editor = require('@tinymce/tinymce-vue').default;
 var moment = require("moment")
 let { mapState } = Vuex
-let fs = require('fs')
 
 Vue.component('note', {
     template: template('content'),

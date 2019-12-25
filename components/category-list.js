@@ -1,6 +1,6 @@
 let sortBy = require("lodash/sortBy")
 let { mapState } = Vuex
-let fs = require('fs')
+let moment = require('moment')
 Vue.component('category-list', {
     template: template('category-list'),
     computed: {
@@ -10,6 +10,7 @@ Vue.component('category-list', {
         },
     },
     methods: {
+        moment,
         editCategory(category) {
             store.commit('editCategory', category.key)
         },

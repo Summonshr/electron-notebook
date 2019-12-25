@@ -2,8 +2,7 @@ let upper = require("lodash/capitalize")
 let sortBy = require("lodash/sortBy")
 let { sendSync} = ipcRenderer
 let { mapState } = Vuex
-let fs = require('fs')
-
+let moment = require('moment')
 Vue.component('note-list', {
     template: template('note-list'),
     computed: {
@@ -53,6 +52,7 @@ Vue.component('note-list', {
         },
     },
     methods: {
+        moment,
         removeFromTrash() {
             let accept = sendSync('confirm', { message: 'This action cannot be reversed', title: 'Are you sure?' })
             accept === 0 && store.commit('emptyTrash')
