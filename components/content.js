@@ -1,4 +1,6 @@
-var Editor = require('@tinymce/tinymce-vue').default;
+var Classic = require('@ckeditor/ckeditor5-build-classic');
+var CKEditor = require('@ckeditor/ckeditor5-vue');
+Vue.use( CKEditor );
 var moment = require("moment")
 let { mapState } = Vuex
 
@@ -7,11 +9,11 @@ Vue.component('note', {
     methods: {
         moment
     },
-    components: {
-        'tinymce-editor': Editor,
-    },
     data() {
-        return { editor: false }
+        return { display: false, editor: Classic }
+    },
+    mounted(){
+        window.onkeyup = e=>e.key==='Escape' && this.display && (this.display = false)
     },
     computed: {
         ...mapState(['notes', 'categories', 'favourites', 'selected', 'current']),
