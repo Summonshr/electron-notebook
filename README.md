@@ -5,7 +5,7 @@ A simple note taking application built with electron, tailwindcss and vuejs.
 If you want to try
 
 ```
-npm install && npm start
+yarn && yarn start
 ```
 
 Features supported.
@@ -18,8 +18,18 @@ Features supported.
 - [x] Restore categories when notes restoed from crash
 - [x] Add context menus to delete notes
 - [x] Add confirm dialogues to various actions
-- [x] Support markdown for note taking
-- [ ] Add simple text editor
+- [x] Add CK Editor
+- [x] Add favourites
+- [ ] Add To Do list
 
+Packages used apart from core packages
+- CKEditor
+- Electron Context Menu
+- Lodash
+- Moment
+- Portal Vue
+- Vuex Persist
+
+No build option are provided as currently the data structure has not been finalized yet
 
 Fire any queries at summonshr@gmail.com

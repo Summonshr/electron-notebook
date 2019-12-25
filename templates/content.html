@@ -24,7 +24,7 @@
                 </div>
                 <input ref="description" type="text" v-model="description" placeholder="Description"
                     class=" py-2 text-xs px-2 bg-gray-100 w-full outline-none bg-gray-100 text-gray-900 text-sm border-b">
-                <ckeditor @blur="display=false" :editor="editor" v-model="note" :config="{}"></ckeditor>
+                <ckeditor :editor="editor" v-model="note" :config="{}"></ckeditor>
             </div>
         </transition>
     </div>
