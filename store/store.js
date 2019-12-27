@@ -32,9 +32,14 @@ module.exports = new Vuex.Store({
             note: "",
             type: ""
         },
+        todos:[],
         current: ''
     },
     mutations: {
+        addTodo(state, key){
+            state.todos = []
+            state.todos.push({status: 'T', item: key})
+        },
         addNote(state) {
             let note = shuffle(sample.notes)[0]
             let notes = state.notes

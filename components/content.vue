@@ -1,3 +1,4 @@
+<template>
 <div class=" flex-1 flex-grow text-white overflow-x-hidden overflow-y-scroll h-screen">
     <div v-if="current" class="bg-gray-200 text-gray-800 h-full ">
         <transition name="fade">
@@ -32,3 +33,55 @@
         <div>Select a note</div>
     </div>
 </div>
+</template>
+<script>
+var Classic = require('@ckeditor/ckeditor5-build-classic');
+var CKEditor = require('@ckeditor/ckeditor5-vue');
+Vue.use(CKEditor);
+var moment = require("moment")
+let { mapState } = Vuex
+
+module.exports = {
+    methods: {
+        moment
+    },
+    data() {
+        return { display: false, editor: Classic }
+    },
+    mounted() {
+        window.onkeyup = e => e.key === 'Escape' && this.display && (this.display = false)
+    },
+    computed: {
+        ...mapState(['notes', 'categories', 'favourites', 'selected', 'current']),
+        current: {
+            get() {
+                return this.notes.filter(e => e.key === this.selected.note)[0]
+            }
+        },
+        title: {
+            get() {
+                return this.current && this.current.title
+            },
+            set(title) {
+                this.current && store.commit('updateNote', { title })
+            }
+        },
+        description: {
+            get() {
+                return this.current && this.current.description
+            },
+            set(description) {
+                store.commit('updateNote', { description })
+            }
+        },
+        note: {
+            get() {
+                return this.current && this.current.content
+            },
+            set(content) {
+                store.commit('updateNote', { content })
+            }
+        },
+    }
+}
+</script>

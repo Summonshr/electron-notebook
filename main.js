@@ -4,6 +4,8 @@ const path = require('path')
 const initial = require('./initial')
 const contextMenu = require('electron-context-menu');
 contextMenu({
+  showInspectElement: false,
+  showCopyImage: false,
   prepend: (defaultActions, params, browserWindow) => [
     {
       label: 'Delete',
@@ -29,6 +31,13 @@ contextMenu({
       click: async () => {
         const [url, type, key] = params.linkURL.split('#')
         mainWindow.webContents.send('favourite:add', key)
+      }
+    },
+    {
+      label: 'Add in to-do list: “{selection}”',
+      visible: params.selectionText.trim().length > 0,
+      click: () => {
+        mainWindow.webContents.send('to-do:add', params.selectionText)
       }
     },
     {
@@ -73,7 +82,7 @@ ipcMain.on('confirm', (e, data) => {
     buttons: ['Ok', 'Cancel'],
     title: data.title,
     message: data.message
-  }).then(({response})=>{
+  }).then(({ response }) => {
     e.returnValue = response
   })
 

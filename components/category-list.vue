@@ -1,3 +1,4 @@
+<template>
 <div id="sidebar" class="hidden lg:block w-48 h-screen bg-gray-800  overflow-x-hidden overflow-y-scroll ">
     <div class="p-2 flex flex-wrap justify-between border-b border-gray-800">
         <h2 class="text-gray-300">NoteBook</h2 class="text-gray-300">
@@ -10,8 +11,7 @@
                 <svg fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
                     viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
-                    <path d="M352,0H96v448h384V128L352,0z M352,45.25L434.75,128H352V45.25z M448,416H128V32h192v128h128V416z M288,128H160V96h128V128z
-       M160,192h256v32H160V192z M160,288h256v32H160V288z M480,480v32H32V0h32v480H480z" />
+                    <path d="M352,0H96v448h384V128L352,0z M352,45.25L434.75,128H352V45.25z M448,416H128V32h192v128h128V416z M288,128H160V96h128V128z M160,192h256v32H160V192z M160,288h256v32H160V288z M480,480v32H32V0h32v480H480z" />
                 </svg>
                 <span class="text-gray-100 w-full h-6 block px-2 h-8 pt-1 text-sm"
                     @click="selected.type='notes'">Notes</span>
@@ -54,3 +54,36 @@
         </div>
     </div>
 </div>
+</template>
+<script>
+let sortBy = require("lodash/sortBy");
+let { mapState } = Vuex;
+let moment = require("moment");
+module.exports = {
+  computed: {
+    ...mapState(["notes", "categories", "favourites", "selected", "current"]),
+    categoryList() {
+      return sortBy(this.categories, "updated_at")
+        .filter(category => !category.trashed_at)
+        .reverse();
+    }
+  },
+  data() {
+    return { transition: "" };
+  },
+  methods: {
+    moment,
+    editCategory(key) {
+      console.log(this);
+      store.commit("editCategory", key);
+    },
+    addCategory() {
+      store.commit("addCategory");
+    },
+    selectCategory(key) {
+      this.transition = "fade-in";
+      store.commit("selectCategory", key);
+    }
+  }
+}
+</script>

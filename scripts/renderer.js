@@ -1,15 +1,29 @@
 let ipcRenderer = require('electron').ipcRenderer
 let Vue = require('vue/dist/vue')
 let Vuex = require('vuex')
-Vue.use(Vuex)
 let PortalVue = require('portal-vue').default
-Vue.use(PortalVue)
-const store = require('./store/store')
 
-require('./components/to-do')
-require('./components/content')
-require('./components/category-list')
-require('./components/note-list')
+Vue.use(Vuex)
+Vue.use(PortalVue)
+
+const store = require('./store/store')
+var fs = require('fs')
+
+function component(name, url) {
+    let content = fs.readFileSync(url + '.vue', 'utf-8')
+    let element = document.createElement('body')
+    element.innerHTML = content
+    content = element.children[1].innerHTML.trim()
+    return Vue.component(name, {
+        template: element.children[0].innerHTML.trim(),
+        ...eval('let module={};' + content)
+    })
+}
+
+component('category-list', './components/category-list')
+component('to-do', './components/to-do')
+component('note-list', './components/note-list')
+component('note', './components/content')
 
 
 new Vue({
@@ -31,6 +45,9 @@ new Vue({
         })
         ipcRenderer.on('favourite:add', (e, k) => {
             this.togglefromFavourite(k)
+        })
+        ipcRenderer.on('to-do:add', (e, k) => {
+            store.commit('addTodo', k)
         })
         ipcRenderer.on('restore', (e, k) => {
             this.transition = 'fade'
