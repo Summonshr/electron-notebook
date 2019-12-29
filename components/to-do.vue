@@ -72,7 +72,9 @@
       </div>
       <div class="p-2 mt-2">
         <ul class="shadow">
-          <li v-for="item in todos" :key="item.key" class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
+          <li v-for="item in current" :key="item.key"
+          :class="{'bg-gray-300 text-gray-800' : item.status === 'T','bg-orange-200 text-orange-800' : item.status === 'W','bg-green-200 text-green-800' : item.status === 'D'}"
+          class="shadow border-b pl-2 py-2 hover:bg-gray-200 cursor-pointer select-none">
             <span>Watch all star wars movies</span>
             <div class="mt-2">
               <button
@@ -108,7 +110,7 @@ module.exports = {
   computed : {
     ...mapState(['todos']),
     current(){
-      return this.todos.filter(todo=>todo.status = chosen)
+      return this.todos.filter(todo=>todo.status ==this.chosen)
     }
   },
   methods: {
