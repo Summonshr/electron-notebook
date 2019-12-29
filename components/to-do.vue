@@ -48,15 +48,21 @@
       <div class="flex flex-wrap mt-2 px-2 relative">
         <a
           href="#"
-          class="bg-gray-300 text-gray-800 font-bold shadow rounded cursor-pointer p-2 mx-1"
+          @click="chosen='T'"
+          :class="{'bg-gray-900 text-gray-100': chosen==='T'}"
+          class="transition font-bold shadow rounded cursor-pointer p-2 mx-1"
         >To Do</a>
         <a
           href="#"
-          class="bg-gray-300 text-gray-800 font-bold shadow rounded cursor-pointer p-2 mx-1"
+          @click="chosen='W'"
+          :class="{'bg-gray-900 text-gray-100': chosen==='W'}"
+          class="transition font-bold shadow rounded cursor-pointer p-2 mx-1"
         >Working</a>
         <a
           href="#"
-          class="bg-gray-300 text-gray-800 font-bold shadow rounded cursor-pointer p-2 mx-1"
+          @click="chosen='D'"
+          :class="{'bg-gray-900 text-gray-100': chosen==='D'}"
+          class="transition font-bold shadow rounded cursor-pointer p-2 mx-1"
         >Done</a>
         <a
           href="#"
@@ -66,71 +72,26 @@
       </div>
       <div class="p-2 mt-2">
         <ul class="shadow">
-          <li class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
+          <li v-for="item in todos" :key="item.key" class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
             <span>Watch all star wars movies</span>
             <div class="mt-2">
               <button
+                @click="updateTodoStatus(item.key, 'T')"
                 title="Move to To - Do"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
+                v-if="item.status != 'T'"
+                class="bg-gray-300 text-gray-800 hover:bg-gray-900 hover:text-gray-100 font-semibold px-2 rounded"
               >T</button>
               <button
+                @click="updateTodoStatus(item.key, 'W')"
                 title="Move to Working"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
+                v-if="item.status != 'W'"
+                class="bg-gray-300 text-gray-800 hover:bg-gray-900 hover:text-gray-100 font-semibold px-2 rounded"
               >W</button>
               <button
+                @click="updateTodoStatus(item.key, 'D')"
                 title="Move to Done"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >D</button>
-            </div>
-          </li>
-          <li class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
-            <span>Buy Dark Knight DVD</span>
-            <div class="mt-2">
-              <button
-                title="Move to To - Do"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >T</button>
-              <button
-                title="Move to Working"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >W</button>
-              <button
-                title="Move to Done"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >D</button>
-            </div>
-          </li>
-          <li class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
-            <span>Pass MBA</span>
-            <div class="mt-2">
-              <button
-                title="Move to To - Do"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >T</button>
-              <button
-                title="Move to Working"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >W</button>
-              <button
-                title="Move to Done"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >D</button>
-            </div>
-          </li>
-          <li class="border-b pl-2 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer select-none">
-            <span>Learn Swimming</span>
-            <div class="mt-2">
-              <button
-                title="Move to To - Do"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >T</button>
-              <button
-                title="Move to Working"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
-              >W</button>
-              <button
-                title="Move to Done"
-                class="bg-gray-300 text-gray-800 font-semibold px-2 rounded"
+                v-if="item.status != 'D'"
+                class="bg-gray-300 text-gray-800 hover:bg-gray-900 hover:text-gray-100 font-semibold px-2 rounded"
               >D</button>
             </div>
           </li>
@@ -140,9 +101,26 @@
   </div>
 </template>
 <script>
+let {mapState} = Vuex
+
+
 module.exports = {
+  computed : {
+    ...mapState(['todos']),
+    current(){
+      return this.todos.filter(todo=>todo.status = chosen)
+    }
+  },
+  methods: {
+    updateTodoStatus(key, status){
+      store.commit('updateTodos', {key, status})
+    }
+  },
+  mounted(){
+    console.log(this.todos)
+  },
   data() {
-    return { sidebar: false };
+    return { chosen: 'T', sidebar: false };
   }
 };
 </script>

@@ -20,7 +20,6 @@ const random = function () {
     return Math.round(Math.random() * 1000000).toString()
 }
 
-
 module.exports = new Vuex.Store({
     plugins: [vuexLocal.plugin],
     state: {
@@ -37,13 +36,21 @@ module.exports = new Vuex.Store({
     },
     mutations: {
         addTodo(state, key){
-            state.todos = []
-            state.todos.push({status: 'T', item: key})
+            state.todos.push({status: 'T', item: key, key: random()})
+        },
+        updateTodos(state, {key,status}){
+            console.log(key,status)
+            state.todos = state.todos.map(todo=>{
+                if(todo.key === key) {
+                    todo.status = status
+                }
+                return todo
+            })
         },
         addNote(state) {
-            let note = shuffle(sample.notes)[0]
+            let note  = shuffle(sample.notes)[0]
             let notes = state.notes
-            let rand = random()
+            let rand  = random()
             notes.push({ updated_at: Date.now(), trashed_at: false, created_at: Date.now(), title: note.title, description: note.description, key: rand, category: state.selected.category, content: '' })
             state.notes = notes;
             state.selected.note = rand
