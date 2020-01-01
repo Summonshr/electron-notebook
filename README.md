@@ -20,7 +20,7 @@ Features supported.
 - [x] Add confirm dialogues to various actions
 - [x] Add CK Editor
 - [x] Add favourites
-- [ ] Add To Do list
+- [x] Add To Do list
 
 Packages used apart from core packages
 - CKEditor
