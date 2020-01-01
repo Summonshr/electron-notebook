@@ -81,7 +81,7 @@
                 @click="updateTodoStatus(item.key, 'T')"
                 title="Move to To - Do"
                 v-if="item.status != 'T'"
-                class="bg-gray-300 text-gray-800 hover:bg-gray-900 hover:text-gray-100 font-semibold px-2 rounded"
+                class="bg-gray-300  text-gray-800 hover:bg-gray-900 hover:text-gray-100 font-semibold px-2 rounded"
               >T</button>
               <button
                 @click="updateTodoStatus(item.key, 'W')"
