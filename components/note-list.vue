@@ -83,12 +83,12 @@
   </div>
 </template>
 <script>
-let upper = require("lodash/capitalize");
-let sortBy = require("lodash/sortBy");
-let { sendSync } = ipcRenderer;
-let { mapState } = Vuex;
-let moment = require("moment");
-module.exports = {
+import upper from "lodash/capitalize"
+import sortBy from "lodash/sortBy"
+import { ipcRenderer } from 'electron';
+import {mapState} from 'vuex'
+import moment from 'moment'
+export default {
   computed: {
     ...mapState(["notes", "categories", "favourites", "selected", "current"]),
     list() {
@@ -150,21 +150,21 @@ module.exports = {
         message: "This action cannot be reversed",
         title: "Are you sure?"
       });
-      accept === 0 && store.commit("emptyTrash");
+      accept === 0 && this.$store.commit("emptyTrash");
       return;
     },
     addNote(event, category) {
       this.transition = "fade";
       this.editor = true;
-      store.commit("addNote");
+      this.$store.commit("addNote");
     },
     select(note) {
-      store.commit("selectNote", note.key);
+      this.$store.commit("selectNote", note.key);
       this.selected.note = note.key;
       this.editor = false;
     },
     togglefromFavourite(key) {
-      store.commit("toggleFromFavourite", key);
+      this.$store.commit("toggleFromFavourite", key);
     }
   },
   data() {

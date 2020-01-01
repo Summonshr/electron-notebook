@@ -56,10 +56,12 @@
 </div>
 </template>
 <script>
-let sortBy = require("lodash/sortBy");
-let { mapState } = Vuex;
-let moment = require("moment");
-module.exports = {
+import sortBy from "lodash/sortBy"
+import { mapState } from 'vuex'
+import moment from 'moment'
+
+export default {
+  name: 'category-list',
   computed: {
     ...mapState(["notes", "categories", "favourites", "selected", "current"]),
     categoryList() {
@@ -75,14 +77,14 @@ module.exports = {
     moment,
     editCategory(key) {
       console.log(this);
-      store.commit("editCategory", key);
+      this.$store.commit("editCategory", key);
     },
     addCategory() {
-      store.commit("addCategory");
+      this.$store.commit("addCategory");
     },
     selectCategory(key) {
       this.transition = "fade-in";
-      store.commit("selectCategory", key);
+      this.$store.commit("selectCategory", key);
     }
   }
 }

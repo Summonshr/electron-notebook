@@ -103,10 +103,10 @@
   </div>
 </template>
 <script>
-let {mapState} = Vuex
+import {mapState} from 'vuex'
 
-
-module.exports = {
+export default {
+  name: 'to-do',
   computed : {
     ...mapState(['todos']),
     current(){
@@ -115,7 +115,7 @@ module.exports = {
   },
   methods: {
     updateTodoStatus(key, status){
-      store.commit('updateTodos', {key, status})
+      this.$store.commit('updateTodos', {key, status})
     }
   },
   mounted(){

@@ -51,8 +51,6 @@ contextMenu({
   ]
 });
 
-require('electron-reload')(__dirname);
-
 let mainWindow
 let filepath = path.join(app.getPath('documents'), 'notes.json')
 
@@ -92,12 +90,13 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    nodeIntegration: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
   })
   mainWindow.maximize()
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('./dist/index.html')
 
   mainWindow.webContents.on('get-data', e => {
     fs.access(filepath, fs.F_OK, (err) => {

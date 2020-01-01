@@ -1,10 +1,12 @@
-let Vuex = require('vuex')
-let shuffle = require("lodash/shuffle")
+import Vue from 'vue/dist/vue.runtime.common.dev'
+import Vuex from 'vuex'
+import shuffle from 'lodash/shuffle'
+import sample from '../config/sample'
+import { VuexPersistence } from 'vuex-persist'
+import { ipcRenderer } from 'electron'
 let { send, sendSync } = ipcRenderer
-let sample = require('../config/sample')
 let data = sendSync('get-data', 'now')
-let { VuexPersistence } = require('vuex-persist')
-
+Vue.use(Vuex)
 const vuexLocal = new VuexPersistence({
     storage: {
         getItem() {
@@ -20,7 +22,7 @@ const random = function () {
     return Math.round(Math.random() * 1000000).toString()
 }
 
-module.exports = new Vuex.Store({
+export default new Vuex.Store({
     plugins: [vuexLocal.plugin],
     state: {
         notes: [],
@@ -31,26 +33,26 @@ module.exports = new Vuex.Store({
             note: "",
             type: ""
         },
-        todos:[],
+        todos: [],
         current: ''
     },
     mutations: {
-        addTodo(state, key){
-            state.todos.push({status: 'T', item: key, key: random()})
+        addTodo(state, key) {
+            state.todos.push({ status: 'T', item: key, key: random() })
         },
-        updateTodos(state, {key,status}){
-            console.log(key,status)
-            state.todos = state.todos.map(todo=>{
-                if(todo.key === key) {
+        updateTodos(state, { key, status }) {
+            console.log(key, status)
+            state.todos = state.todos.map(todo => {
+                if (todo.key === key) {
                     todo.status = status
                 }
                 return todo
             })
         },
         addNote(state) {
-            let note  = shuffle(sample.notes)[0]
+            let note = shuffle(sample.notes)[0]
             let notes = state.notes
-            let rand  = random()
+            let rand = random()
             notes.push({ updated_at: Date.now(), trashed_at: false, created_at: Date.now(), title: note.title, description: note.description, key: rand, category: state.selected.category, content: '' })
             state.notes = notes;
             state.selected.note = rand
@@ -128,5 +130,26 @@ module.exports = new Vuex.Store({
                 return note;
             })
         },
+        restore(state, obj) {
+
+            let data = [...state[obj.type]];
+
+            data = data.map(ec => {
+                if (ec.key === obj.key) {
+                    ec.trashed_at = false;
+                    ec.updated_at = Date.now();
+                    state.categories = [...state.categories].map(category => {
+                        if (category.key === ec.category) {
+                            category.trashed_at = false;
+                        }
+                        return category;
+                    });
+                }
+
+                return ec;
+            });
+
+            state[obj.type] = data;
+        }
     }
 })

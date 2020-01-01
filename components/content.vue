@@ -35,13 +35,15 @@
 </div>
 </template>
 <script>
-var Classic = require('@ckeditor/ckeditor5-build-classic');
-var CKEditor = require('@ckeditor/ckeditor5-vue');
-Vue.use(CKEditor);
-var moment = require("moment")
-let { mapState } = Vuex
+import Classic from '@ckeditor/ckeditor5-build-classic'
+import CKEditor from '@ckeditor/ckeditor5-vue'
+import moment from "moment"
+import {mapState} from 'vuex'
 
-module.exports = {
+export default {
+    components:{
+        'ckeditor': CKEditor.component
+    },
     methods: {
         moment
     },
@@ -63,7 +65,7 @@ module.exports = {
                 return this.current && this.current.title
             },
             set(title) {
-                this.current && store.commit('updateNote', { title })
+                this.current && this.$store.commit('updateNote', { title })
             }
         },
         description: {
@@ -71,7 +73,7 @@ module.exports = {
                 return this.current && this.current.description
             },
             set(description) {
-                store.commit('updateNote', { description })
+                this.$store.commit('updateNote', { description })
             }
         },
         note: {
@@ -79,7 +81,7 @@ module.exports = {
                 return this.current && this.current.content
             },
             set(content) {
-                store.commit('updateNote', { content })
+                this.$store.commit('updateNote', { content })
             }
         },
     }

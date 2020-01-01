@@ -1,5 +1,5 @@
 window.require  = require
-fs = require('fs')
+window.process = process
 window.template = template=>fs.readFileSync('./templates/'+template+'.html', 'utf-8')
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
