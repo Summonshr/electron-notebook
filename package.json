@@ -28,7 +28,7 @@
     "electron-context-menu": "^0.15.1",
     "electron-reload": "^1.5.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "portal-vue": "^2.1.6",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.4",
